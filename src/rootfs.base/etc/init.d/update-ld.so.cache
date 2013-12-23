@@ -1,0 +1,31 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          update-ld.so.cache
+# Required-Start:    $syslog
+# Required-Stop:     $syslog
+# Default-Start:     1 2 3 4 5
+# Default-Stop:      0 6
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+set -e
+
+case "$1" in
+  start)
+  	set -x
+ 	ldconfig -v -C /etc/ld.so/ld.so.cache > /var/log/update-ld.so.cache.log
+ 	set +x
+	;;
+  stop)
+	true
+	;;
+  restart|force-reload)
+	true
+	;;
+  *)
+  	false
+	exit 1
+	;;
+esac
+
+exit 0
