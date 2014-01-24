@@ -13,8 +13,6 @@ This set of scripts is intended to create GNU/Linux image, that can be booted vi
  * pxelinux.0 - bootloader, used to download and boot kernel and initrd. Not generated, can be obtained from it's [site](http://www.syslinux.org/) ro from package syslinux.
  * pxelinux.cfg/default - bootloader configuration
 
-# WORKFLOW
+# DOCUMENTATION
 
-It's late now, I realy want to sleep. I'll write this later.
-
-# INSTALLATION
+[Wiki](https://github.com/selivan/thinclient/wiki)
