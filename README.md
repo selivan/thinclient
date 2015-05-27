@@ -6,13 +6,6 @@ This set of scripts is intended to create GNU/Linux image, that can be booted vi
  * Overlays(file archives) can be mounted over root filesystem, allowing different thin stations to have different configs/software, without building many different images
  * Home folder may be mounted via NFS, so changes are saved.
 
-# GENERATED FILES
- * vmlinuz - linux kernel image
- * initrd.img - initial RAM disk. Contains kernel modules and scripts, required to download all other files and boot system
- * rootfs.squashrs - root filesystem. Contains all software. [SquashFS](http://en.wikipedia.org/wiki/SquashFS) is used to keep it small.
- * pxelinux.0 - bootloader, used to download and boot kernel and initrd. Not generated, can be obtained from it's [site](http://www.syslinux.org/) ro from package syslinux.
- * pxelinux.cfg/default - bootloader configuration
-
 # DOCUMENTATION
 
 [Wiki](https://github.com/selivan/thinclient/wiki)
