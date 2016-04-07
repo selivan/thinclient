@@ -8,4 +8,6 @@ This set of scripts is intended to create GNU/Linux image, that can be booted vi
 
 # [DOCUMENTATION IN PROJECT WIKI] (https://github.com/selivan/thinclient/wiki)
 
+# LICENSE: [LGPL v3] (https://github.com/selivan/thinclient/blob/master/LICENSE)
+
 **P.S.** If this code is useful for you - don't forget to put a star on it's [github repo](https://github.com/selivan/thinclient).
