@@ -6,7 +6,7 @@ This set of scripts is intended to create GNU/Linux image, that can be booted vi
  * Overlays(file archives) can be mounted over root filesystem, allowing different thin stations to have different configs/software, without building many different images
  * Home folder may be mounted via NFS, so changes are saved.
 
-# [DOCUMENTATION IN PROJECT WIKI] (https://github.com/selivan/thinclient/wiki)
+# DOCUMENTATION: [PROJECT WIKI] (https://github.com/selivan/thinclient/wiki)
 
 # LICENSE: [LGPL v3] (https://github.com/selivan/thinclient/blob/master/LICENSE)
 
