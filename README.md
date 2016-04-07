@@ -7,3 +7,5 @@ This set of scripts is intended to create GNU/Linux image, that can be booted vi
  * Home folder may be mounted via NFS, so changes are saved.
 
 # [DOCUMENTATION IN PROJECT WIKI] (https://github.com/selivan/thinclient/wiki)
+
+**P.S.** If this code is useful for you - don't forget to put a star on it's [github repo](https://github.com/selivan/thinclient).
