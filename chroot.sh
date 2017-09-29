@@ -25,28 +25,13 @@ mount -o bind ./src/${image_name}_exclude/src ./src/${image_name}/src
 mount -o bind ./src/${image_name}_exclude/usr/src ./src/${image_name}/usr/src
 mount -o bind ./src/${image_name}_exclude/tmp ./src/${image_name}/tmp
 
-xhost +
 set +e
+
+which xhost && xhost +
 
 chroot ./src/$image_name bash
 
 # Envoronment cleanup
 cd `dirname $0`
-
-umount ./src/${image_name}/boot
-umount ./src/${image_name}/var/cache/apt
-umount ./src/${image_name}/usr/share/doc
-umount ./src/${image_name}/usr/share/man
-umount ./src/${image_name}/src
-umount ./src/${image_name}/usr/src
-umount ./src/${image_name}/tmp
-
-umount ./src/$image_name/root
-umount ./src/$image_name/run
-umount ./src/$image_name/proc
-umount ./src/$image_name/sys
-umount ./src/$image_name/dev/pts
-sleep 2
-umount ./src/$image_name/dev
-xhost -
+./clean-mounts.sh
 
