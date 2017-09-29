@@ -33,5 +33,5 @@ chroot ./src/$image_name bash
 
 # Envoronment cleanup
 cd `dirname $0`
-./clean-mounts.sh
+./clean-mounts.sh "$image_name"
 
