@@ -19,6 +19,7 @@ mount -o bind /dev/pts ./src/$image_name/dev/pts
 
 mount -o bind ./src/${image_name}_exclude/boot ./src/${image_name}/boot
 mount -o bind ./src/${image_name}_exclude/var/cache/apt ./src/${image_name}/var/cache/apt
+mount -o bind ./src/${image_name}_exclude/var/log ./src/${image_name}/var/log
 mount -o bind ./src/${image_name}_exclude/usr/share/doc ./src/${image_name}/usr/share/doc
 mount -o bind ./src/${image_name}_exclude/usr/share/man ./src/${image_name}/usr/share/man
 mount -o bind ./src/${image_name}_exclude/src ./src/${image_name}/src
@@ -33,5 +34,5 @@ chroot ./src/$image_name bash
 
 # Envoronment cleanup
 cd `dirname $0`
-./clean-mounts.sh "$image_name"
+./clean-mounts.sh "$1"
 

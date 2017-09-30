@@ -12,6 +12,7 @@ cd `dirname $0`
 
 umount ./src/${image_name}/boot
 umount ./src/${image_name}/var/cache/apt
+umount ./src/${image_name}/var/log
 umount ./src/${image_name}/usr/share/doc
 umount ./src/${image_name}/usr/share/man
 umount ./src/${image_name}/src
