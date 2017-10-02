@@ -11,20 +11,26 @@ get_url()
 
 	case "${_proto}" in
 	tftp)
-		atftp --verbose --option "blksize 40960" -l "${_dst}" -r "${_url}" --no-source-port-checking -g "${ROOTSERVER}" 69
-		return $?
+	    [ -z "${_url}" ] && url="${_filename}"
+	    atftp --option "blksize 40960" -l "${_dst}" -r "${_url}" --no-source-port-checking -g "${ROOTSERVER}" 69
+	    return $?
 	;;
 	http)
-		if echo ${_url} } | grep -q '^http' ; then
-			true
-		else
-			_url="http://${ROOTSERVER}/${_url}"
-		fi
-		wget -O "${_dst}" "${_url}"
-		return $?
+	    [ -z "${_url}" ] && url="http://${ROOTSERVER}/${_filename}"
+	    wget -O "${_dst}" "${_url}"
+	    return $?
 	;;
 	esac
 }
+
+#do_net_conf()
+#{
+#        log_begin_msg "Configuring networking"
+#        configure_networking
+#        . /tmp/net-*.conf
+#        log_end_msg
+#
+#}
 
 do_rammount()
 {
@@ -48,10 +54,9 @@ do_rammount()
 	mkdir "${rootmnt}"/AUFS/rootfs
 	mount --move /tmp/AUFS/rootfs "${rootmnt}"/AUFS/rootfs
 
-	if [ -n "$overlays" ]; then
 	echo "Processing overlays"
 	for i in $overlays; do
-
+		
 		echo "Preparing"
 		dir=$( mktemp -d -p /tmp ovl_XXXXXX )
 		file=$( mktemp -p /tmp )
@@ -73,24 +78,14 @@ do_rammount()
 		echo "Moving overlay $i mount point to directory in real root"
 		mount --move $dir $dir_move
 	done
-	fi
 
 	#echo "Creating tmpfs rw filesystem for dynamic ld.so.cache"
 	#cp "${rootmnt}"/etc/ld.so/ld.so.cache /tmp
 	#mount -t tmpfs none "${rootmnt}"/etc/ld.so
 	#mv /tmp/ld.so.cache "${rootmnt}"/etc/ld.so
-
-	echo "Creating tmpfs rw filesystem for /tmp"
-	mount -t tmpfs none "${rootmnt}"/tmp
-
-	echo "Creating tmpfs rw filesystem for /run"
-	mount -t tmpfs none "${rootmnt}"/run
-
+	
 	echo "Creating tmpfs rw filesystem for /media"
 	mount -t tmpfs none "${rootmnt}"/media
-
-	echo "Creating tmpfs rw filesystem for /var/log"
-	mount -t tmpfs none "${rootmnt}"/var/log
 
 	echo "STRANGE MAGIC FINISHED"
 
@@ -123,7 +118,6 @@ do_rammount()
             gunzip -c '/tmp/home.tar.gz' | tar -x -C ${rootmnt}/root -f- || return $?
             log_end_msg
         fi
-	echo "do_rammount: OK"
         return 0
 }
 
@@ -169,19 +163,19 @@ mountroot()
 
         # Default delay is around 180s
         delay=${ROOTDELAY:-180}
-
+	
         # loop until rammount succeeds
-	#do_net_conf
-	configure_networking
+		#do_net_conf
+		configure_networking
         do_rammount || panic "Something wrong"
 
-#        while [ ${retry_nr} -lt ${delay} ] && [ ! -e ${rootmnt}${init} ]; do
-#                log_begin_msg "Retrying rammount"
-#                /bin/sleep 5
-#				#do_net_conf
-#				configure_networking
-#                do_rammount
-#                retry_nr=$(( ${retry_nr} + 1 ))
-#                log_end_msg
-#        done
+        while [ ${retry_nr} -lt ${delay} ] && [ ! -e ${rootmnt}${init} ]; do
+                log_begin_msg "Retrying rammount"
+                /bin/sleep 5
+				#do_net_conf
+				configure_networking
+                do_rammount
+                retry_nr=$(( ${retry_nr} + 1 ))
+                log_end_msg
+        done
 }
