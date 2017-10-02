@@ -11,7 +11,15 @@ debootstrap_os='xenial'
 
 cd `dirname $0`
 
+echo "Bootstraping new system"
+
 debootstrap $debootstrap_opts "$debootstrap_os" ./src/"$image_name"
+
+echo "Creating necessary directories in new system"
+
+mkdir -p ./src/"$image_name"/boot
+mkdir -p ./src/"$image_name"/src
+mkdir -p ./src/"$image_name"/usr/src
 
 echo "Copying configs from ${image_name}_configs to bootstrapped system"
 cp -ar -v ./src/"$image_name"_configs ./src/"$image_name"
@@ -19,6 +27,7 @@ cp -ar -v ./src/"$image_name"_configs ./src/"$image_name"
 echo "Moving unnecessary parts to ${image_name}_exclude"
 mkdir -p  ./src/"$image_name"_exclude/boot
 mkdir -p  ./src/"$image_name"_exclude/var/cache/apt
+mkdir -p  ./src/"$image_name"_exclude/var/log
 mkdir -p  ./src/"$image_name"_exclude/usr/share/doc
 mkdir -p  ./src/"$image_name"_exclude/usr/share/man
 mkdir -p  ./src/"$image_name"_exclude/src
