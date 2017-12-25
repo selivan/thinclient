@@ -1,7 +1,7 @@
 # DESCRIPTION
 Tools to create GNU/Linux image, that can be booted via network and run from memory, without mounting rootfs via NFS/iSCSI/CIFS/..., like [this](https://help.ubuntu.com/community/DisklessUbuntuHowto). Based on Debian/Ubuntu.
 
-Most common use case is creating thin clilent for RDP terminals.
+Most common use case is thin clilent for RDP terminals.
 
 # FEATURES
  * Easily add any software from reach Debian/Ubuntu repositories: browser, recorder for video cam, media player, etc. This is not so easy for thin clients, using their own package base, like [ThinStation](http://sourceforge.net/apps/mediawiki/thinstation/index.php?title=Main_Page).
