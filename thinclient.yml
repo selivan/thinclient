@@ -3,6 +3,7 @@
   tasks:
     - name: read config variables
       include_vars: vars.yml
+      # /vagrant is used because ansible_local playbook runs inside virtual host
     - name: generate variables for shell scripts
       local_action: template src=/vagrant/vars.sh.j2 dest=/vagrant/vars.sh
     - name: install apt sources.list
@@ -21,7 +22,7 @@
         - aufs-tools
         - dnsmasq
         - pxelinux
-        - syslinux
+        # this package has modules necessary for pxelinux to boot
         - syslinux-common
     - name: install some packages for convenient work
       apt: name={{ item }} state=latest
