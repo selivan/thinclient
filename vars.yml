@@ -1,0 +1,8 @@
+chroot_dir: /chroot
+chroot_exclude_dir: /chroot_exclude
+build_dir: /build
+
+dhcp_start_addr: "192.168.10.129"
+dhcp_end_addr: "192.168.10.250"
+dhcp_netmask: "255.255.255.0"
+dhcp_router: "192.168.10.254"

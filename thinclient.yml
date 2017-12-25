@@ -1,6 +1,10 @@
 - hosts: all
   become: yes
   tasks:
+    - name: read config variables
+      include_vars: vars.yml
+    - name: generate variables for shell scripts
+      local_action: template src=vars.sh.j2 dest=vars.sh
     - name: install apt sources.list
       template: src=apt/sources.list dest=/etc/apt/sources.list mode=0644
       register: apt_sources_list
@@ -26,3 +30,14 @@
         - tmux
         - mc
         - vim-tiny
+    - name: create chroot directories
+      file: state=directory path={{ item }} mode=0755
+      with_items:
+        - "{{ chroot_dir }}"
+        - "{{ chroot_exclude_dir }}"
+    - name: install dnsmasq configs
+      template: src=dnsmasq/dnsmasq.conf dest=/etc/dnsmasq.conf mode=0644
+      notify: restart dnsmasq
+  handlers:
+    name: restart dnsmasq
+    service: name=dnsmasq state=restarted
