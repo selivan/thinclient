@@ -1,0 +1,28 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: install apt sources.list
+      template: src=apt/sources.list dest=/etc/apt/sources.list mode=0644
+      register: apt_sources_list
+    - name: update apt cache
+      apt: update_cache=yes
+      when: apt_sources_list|changed
+    - name: install required packages
+      apt: name={{ item }} state=latest
+      with_items:
+        - debootstrap
+        - squashfs-tools
+        - initramfs-tools
+        - cpio
+        - aufs-tools
+        - dnsmasq
+        - pxelinux
+        - syslinux
+        - syslinux-common
+    - name: install some packages for convenient work
+      apt: name={{ item }} state=latest
+      with_items:
+        - bash-completion
+        - tmux
+        - mc
+        - vim-tiny
