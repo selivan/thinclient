@@ -1,4 +1,10 @@
+# build artifacts
 src/rootfs.base/
 src/rootfs.base_exclude/
 build
+# vagrant artifacts
+.vagrant
+*.log
+# ansible artifacts
+*.retry
 
