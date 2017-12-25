@@ -1,6 +1,7 @@
 # build artifacts
 src/rootfs.base/
 src/rootfs.base_exclude/
+src/*.tar
 build
 # vagrant artifacts
 .vagrant
