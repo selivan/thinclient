@@ -1,0 +1,3 @@
+[ ] scripts - use new paths and vars.sh
+[ ] simplify overlays - no overlay build scripts
+[ ] network configuration for node by vagrant, example: https://www.vagrantup.com/docs/provisioning/ansible_local.html#ansible-parallel-execution-from-a-guest
