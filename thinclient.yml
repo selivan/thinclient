@@ -1,13 +1,13 @@
-- hosts: all
+- hosts: server
   become: yes
   tasks:
     - name: read config variables
       include_vars: vars.yml
       # /vagrant is used because ansible_local playbook runs inside virtual host
-    - name: generate variables for shell scripts
-      local_action: template src=/vagrant/vars.sh.j2 dest=/vagrant/vars.sh
+    # - name: generate variables for shell scripts
+    #   local_action: template src=/vagrant/vars.sh.j2 dest=/vagrant/vars.sh
     - name: install apt sources.list
-      template: src=apt/sources.list dest=/etc/apt/sources.list mode=0644
+      template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
       register: apt_sources_list
     - name: update apt cache
       apt: update_cache=yes
@@ -15,15 +15,11 @@
     - name: install required packages
       apt: name={{ item }} state=latest
       with_items:
-        - debootstrap
-        - squashfs-tools
-        - initramfs-tools
-        - cpio
-        - aufs-tools
         - dnsmasq
         - pxelinux
         # this package has modules necessary for pxelinux to boot
         - syslinux-common
+        - rsync
     - name: install some packages for convenient work
       apt: name={{ item }} state=latest
       with_items:
@@ -31,15 +27,33 @@
         - tmux
         - mc
         - vim-tiny
-    - name: create chroot and buikd directories
-      file: state=directory path={{ item }} mode=0755
-      with_items:
-        - "{{ chroot_dir }}"
-        - "{{ chroot_exclude_dir }}"
-        - "{{ build_dir }}"
     - name: install dnsmasq configs
-      template: src=dnsmasq/dnsmasq.conf dest=/etc/dnsmasq.conf mode=0644
+      template: src=server/dnsmasq/dnsmasq.conf dest=/etc/dnsmasq.conf mode=0644
       notify: restart dnsmasq
+    - name: create symlinks for pxelinux loader
+      file: path={{ item.path }} state=link src={{ item.src }}
+      with_items:
+        - { path: '/vagrant/build/pxelinux.0', src: '/usr/lib/PXELINUX/pxelinux.0' }
+        - { path: '/vagrant/build/ldlinux.c32', src: '/usr/lib/syslinux/modules/bios/ldlinux.c32' }
   handlers:
     - name: restart dnsmasq
       service: name=dnsmasq state=restarted
+
+- hosts: template
+  become: yes
+  tasks:
+  - name: read config variables
+    include_vars: vars.yml
+  - name: install apt sources.list
+    template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
+    register: apt_sources_list
+  - name: update apt cache
+    apt: update_cache=yes
+    when: apt_sources_list|changed
+  - name: install required packages
+    apt: name={{ item }} state=latest
+    with_items:
+      - squashfs-tools
+      - initramfs-tools
+      - cpio
+      - aufs-tools
