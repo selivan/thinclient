@@ -1,4 +1,10 @@
-You need [Virtualbox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com/).
+You need git, [Virtualbox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com/).
+
+Clone this repository:\
+```
+git clone https://github.com/selivan/thinclient.git
+cd thinclient
+```
 
 Create machine to test created images. Error is fine, it hasn't yet anything to boot. Just turn the test machine off.\
 `vagrant up test`
