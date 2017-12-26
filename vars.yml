@@ -3,5 +3,7 @@ dhcp_end_addr: "192.168.10.250"
 dhcp_netmask: "255.255.255.0"
 dhcp_router: "192.168.10.1"
 
+builddir: /vagrant/build
+
 # Packages removed to make image smaller
-unnecessary_packages: [ accountsservice, libaccountsservice0, apport, apport-symptoms, at, btrfs-tools, python3-apport, bcache-tools, byobu, cloud-init, cloud-guest-utils, cloud-initramfs-copymods, cloud-initramfs-dyn-netconf, cryptsetup, cryptsetup-bin, command-not-found, command-not-found-data, dosfstools, info, lvm2, mdadm, lxc-common, lxcfs, lxd, lxd-client, mlocate, overlayroot, pastebinit, rename, run-one, screen, tcpd, snapd, sosreport, ssh-import-id, ubuntu-core-launcher, ureadahead, ufw, unattended-upgrades, update-notifier-common, zerofree, update-manager-core ubuntu-release-upgrader-core, python3-update-manager python3-distupgrade, python3-cffi-backend python3-cryptography, python3-json-pointer, python3-jsonpatch, python3-idna, python3-systemd, python, python-apt, libpython-stdlib, open-iscsi ]
+unnecessary_packages: [ accountsservice, libaccountsservice0, apport, apport-symptoms, at, btrfs-tools, python3-apport, bcache-tools, byobu, cloud-init, cloud-guest-utils, cloud-initramfs-copymods, cloud-initramfs-dyn-netconf, cryptsetup, cryptsetup-bin, command-not-found, command-not-found-data, dosfstools, info, lvm2, mdadm, lxc-common, lxcfs, lxd, lxd-client, mlocate, overlayroot, pastebinit, rename, run-one, screen, tcpd, snapd, sosreport, ssh-import-id, ubuntu-core-launcher, ureadahead, ufw, unattended-upgrades, update-notifier-common, zerofree, update-manager-core ubuntu-release-upgrader-core, python3-update-manager python3-distupgrade, python3-cffi-backend python3-cryptography, python3-json-pointer, python3-jsonpatch, python3-idna, python3-systemd, open-iscsi ]
