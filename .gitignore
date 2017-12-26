@@ -5,6 +5,5 @@ build
 *.log
 # ansible artifacts
 *.retry
-# generated variables file
+# generated variables file for scripts
 vars.sh
-
