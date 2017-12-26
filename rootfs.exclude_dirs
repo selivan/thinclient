@@ -6,6 +6,8 @@ sys/*
 tmp/*
 var/cache/apt/*
 var/log/*
+var/lib/apt/lists/*
+vagrant
 usr/share/doc/*
 usr/share/man/*
 usr/src/*
