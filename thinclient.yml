@@ -74,6 +74,8 @@
       - squashfs-tools
       - aufs-tools
       - cpio
+      # console autologin
+      - mingetty
   - name: install general linux kernel packages
     apt: pkg={{ item }} state=latest
     with_items:
