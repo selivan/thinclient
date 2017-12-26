@@ -16,6 +16,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "test" do |machine|
       # Manual interface configuration
       machine.vm.provider "virtualbox" do |vb|
+        # This is debug machine, we need to see the interface
+        vb.gui = true
         vb.customize [
             "modifyvm", :id,
             "--boot1", "net",
@@ -31,7 +33,7 @@ Vagrant.configure("2") do |config|
   # Machine to be template for images
   # Provisioning is mostly  done later by "server" machine
   config.vm.define "template" do |machine|
-      machine.vm.network "private_network", type: "dhcp", virtualbox__intnet: "thinclient-pxc"
+      machine.vm.network "private_network", ip: "192.168.10.2", virtualbox__intnet: "thinclient-pxc"
 
       # Memory and CPU - to work faster with squashfs
       machine.vm.provider "virtualbox" do |vb|
