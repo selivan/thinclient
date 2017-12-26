@@ -1,5 +1,5 @@
 ## DESCRIPTION
-Tools to create Ubuntu GNU/Linux image, that boots via network and works from memory. Doesn't need mounting rootfs via network from server, like official [DisklessUbuntu](https://help.ubuntu.com/community/DisklessUbuntuHowto). Works much better in weak networks: clients do not slow down or hang in case of problems with server or network equipment.
+Tools to create Ubuntu GNU/Linux image, that boots via network and works from memory. Doesn't need to mount fileystem via network from server, like [DisklessUbuntu](https://help.ubuntu.com/community/DisklessUbuntuHowto). Works much better in slow or unreliable networks: clients do not slow down or hang up because of problems with server or network equipment.
 
 Most common use case is creating custom thin clilent for RDP terminals.
 
