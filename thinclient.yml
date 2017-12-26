@@ -91,3 +91,7 @@
       - initramfs-tools/hooks/zz_custom
       - initramfs-tools/scripts/ram
       - initramfs-tools/initramfs.conf
+    notify: update initramfs
+  handlers:
+    - name: update initramfs
+      shell: update-initramfs -u

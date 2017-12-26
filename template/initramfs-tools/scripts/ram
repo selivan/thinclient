@@ -105,7 +105,7 @@ do_rammount()
 		[ -z "${homeurl}" ] && homeurl=`dirname "${filename}"`"/home/${BOOTIF}"
 		[ -z `echo "${homeurl}" | grep ':'` ] && homeurl="${ROOTSERVER}:${homeurl}"
 		log_begin_msg "Mounting NFS home ${homeurl}"
-		nfsmount -o "nolock,rw,retrans=10" "${homeurl}" "${rootmnt}/root" || return $?
+		nfsmount -o "nolock,rw,retrans=10" "${homeurl}" "${rootmnt}/ubuntu" || return $?
 		#echo "Press Enter to continue"
 		#read enter
 		set +x
