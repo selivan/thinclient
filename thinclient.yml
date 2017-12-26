@@ -3,9 +3,9 @@
   tasks:
     - name: read config variables
       include_vars: vars.yml
-      # /vagrant is used because ansible_local playbook runs inside virtual host
-    # - name: generate variables for shell scripts
-    #   local_action: template src=/vagrant/vars.sh.j2 dest=/vagrant/vars.sh
+      # /vagrant path is used because ansible_local playbook runs inside virtual host
+    - name: generate variables for shell scripts
+      local_action: template src=vars.sh.j2 dest=/vagrant/vars.sh
     - name: install apt sources.list
       template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
       register: apt_sources_list
