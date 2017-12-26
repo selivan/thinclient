@@ -45,7 +45,7 @@
     - name: create pxelinux.cfg directory
       file: path=/vagrant/build/pxelinux.cfg state=directory mode=0755
     - name: copy pxelinux default configs
-      copy: src=template/pxelinux.cfg/default dest=/vagrant/build/pxelinux.cfg/default mode=0644
+      copy: src=server/pxelinux.cfg/default dest=/vagrant/build/pxelinux.cfg/default mode=0644
   handlers:
     - name: restart dnsmasq
       service: name=dnsmasq state=restarted
