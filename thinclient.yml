@@ -85,8 +85,9 @@
       - linux-image-virtual
       - linux-headers-virtual
       - linux-headers-generic
-  - name: install initramfs hook
+  - name: install initramfs hook script and config
     copy: src=template/{{ item }} dest=/etc/{{ item }} mode=0755
     with_items:
       - initramfs-tools/hooks/zz_custom
       - initramfs-tools/scripts/ram
+      - initramfs-tools/initramfs.conf
