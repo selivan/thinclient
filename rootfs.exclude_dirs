@@ -1,8 +1,10 @@
 boot/*
+dev/*
 home/ubuntu/*
+proc/*
 tmp/*
+var/cache/apt/*
+var/log/*
 usr/share/doc/*
 usr/share/man/*
-var/cache/apt/*
 usr/src/*
-var/log/*
