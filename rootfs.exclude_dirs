@@ -2,6 +2,7 @@ boot/*
 dev/*
 home/ubuntu/*
 proc/*
+sys/*
 tmp/*
 var/cache/apt/*
 var/log/*
