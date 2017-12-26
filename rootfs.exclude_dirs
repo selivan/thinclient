@@ -1,6 +1,6 @@
 boot/*
 home/ubuntu/*
-/tmp/*
+tmp/*
 usr/share/doc/*
 usr/share/man/*
 var/cache/apt/*
