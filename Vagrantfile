@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
 
       # Does not require a lot of firepower to be a small TFTP/DHCP/HTTP server
       machine.vm.provider "virtualbox" do |vb|
-        vb.memory = "512"
+        vb.memory = "256"
         vb.cpus = 1
       end
 
