@@ -32,6 +32,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "template" do |machine|
       machine.vm.network "private_network", ip: "192.168.10.2", virtualbox__intnet: "thinclient-pxc"
 
+      # Memory and CPU - to work faster with squashfs
+      machine.vm.provider "virtualbox" do |vb|
+        vb.memory = "2048"
+        vb.cpus = 2
+      end
+
       # Ansible requires python v2 installed
       machine.vm.provision "shell", inline: <<-SHELL
         if [ ! -f /usr/bin/python ]; then
@@ -46,9 +52,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "server" do |machine|
       machine.vm.network "private_network", ip: "192.168.10.1", virtualbox__intnet: "thinclient-pxc"
 
+      # Does not require a lot of firepower to be a small TFTP/DHCP/HTTP server
       machine.vm.provider "virtualbox" do |vb|
-        vb.memory = "2048"
-        vb.cpus = 2
+        vb.memory = "512"
+        vb.cpus = 1
       end
 
       # Ansible requires python v2 installed
