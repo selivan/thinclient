@@ -3,6 +3,8 @@ Tools to create Ubuntu GNU/Linux image, that boots via network and works from me
 
 Most common use case is creating custom thin clilent for RDP terminals.
 
+This project was originaly created by @efim-a-efim.
+
 ## FEATURES
  * Easily add any software from rich Ubuntu repositories: browser, recorder for video cam, media player, etc. This is not so easy for other thin clients, using their own package base, like [ThinStation](http://sourceforge.net/apps/mediawiki/thinstation/index.php?title=Main_Page).
  * Overlays(file archives) can be mounted over root filesystem, allowing different thin stations to have different configs/software, without building many different images. TODO: documentation.
