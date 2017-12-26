@@ -7,7 +7,9 @@ tmp/*
 var/cache/apt/*
 var/log/*
 var/lib/apt/lists/*
-vagrant
+vagrant/*
 usr/share/doc/*
 usr/share/man/*
 usr/src/*
+initrd.img
+vmlinuz
