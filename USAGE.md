@@ -1,18 +1,18 @@
 You need [Virtualbox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com/).
 
-Create machine to test created images. Error is fine, it hasn't yet anything to boot. Just turn the test machine off.\\
+Create machine to test created images. Error is fine, it hasn't yet anything to boot. Just turn the test machine off.\
 `vagrant up test`
 
-Create machine that will be used as template for our image.\\
+Create machine that will be used as template for our image.\
 `vagrant up template`
 
-Create machine that will work as PXE server for testing. Also it is used to provision configuration to template machine with [Ansible](http://docs.ansible.com/ansible/latest/index.html).\\
+Create machine that will work as PXE server for testing. Also it is used to provision configuration to template machine with [Ansible](http://docs.ansible.com/ansible/latest/index.html).\
 `vagrant up server`
 
-Reload template to boot with new kernel.\\
+Reload template to boot with new kernel.\
 `vagrant reload template`
 
-Log into template machine.\\
+Log into template machine.\
 `vagrant ssh template`
 
 Here you can customize your future thin client: install packages, configs, ...
