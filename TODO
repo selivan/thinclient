@@ -9,3 +9,5 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] initrd - switch to bzip
 [ ] server - make dnsmasq service boot after vbox-guest-utils (fails because cat't see shared directory).
 [ ] network interfaces - start dhcp for all interfaces in new machiine
+[ ] change server IP from 192.168.10.1 - to prevent Vagrant warnings
+[ ] console autologin https://wiki.archlinux.org/index.php/Getty#Automatic_login_to_virtual_console
