@@ -1,4 +1,4 @@
-You need git, [Virtualbox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com/).
+You need [git](https://git-scm.com/), [Virtualbox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com/). You can use this software on any system: Windows, Linux or MacOS X.
 
 ## Prepare the workplace
 
