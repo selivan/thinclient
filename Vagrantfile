@@ -11,10 +11,26 @@ Vagrant.configure("2") do |config|
   # `vagrant box outdated`. This is not recommended.
   #config.vm.box_check_update = false
 
-  # Machine to generate images from
+  # Machine to test images, boots from PXE
+  config.vm.define "test" do |machine|
+      # Manual interface configuration
+      machine.vm.provider "virtualbox" do |vb|
+        vb.customize [
+            "modifyvm", :id,
+            "--boot1", "net",
+            "--boot2", "none",
+            "--boot3", "none",
+            "--boot4", "none",
+            "--nic1", "intnet",
+            "--intnet1", "thinclient-pxc"
+        ]
+      end
+  end
+
+  # Machine to be template for images
   # Provisioning is mostly  done later by "server" machine
   config.vm.define "template" do |machine|
-      machine.vm.network "private_network", ip: "192.168.10.2"
+      machine.vm.network "private_network", ip: "192.168.10.2", virtualbox__intnet: "thinclient-pxc"
 
       # Ansible requires python v2 installed
       machine.vm.provision "shell", inline: <<-SHELL
@@ -26,23 +42,9 @@ Vagrant.configure("2") do |config|
 
   end
 
-  # Machine to test images, boots from PXE
-  config.vm.define "test" do |machine|
-      # Manual interface configuration
-      machine.vm.network "private_network", ip: "192.168.10.3",
-        auto_config: false
-
-      machine.vm.provider "virtualbox" do |vb|
-        vb.customize ["modifyvm", :id, "--boot1", "net"]
-        vb.customize ["modifyvm", :id, "--boot2", "none"]
-        vb.customize ["modifyvm", :id, "--boot2", "none"]
-        vb.customize ["modifyvm", :id, "--boot2", "none"]
-      end
-  end
-
   # Machine to be used as PXC server and to configure others with ansible
   config.vm.define "server" do |machine|
-      machine.vm.network "private_network", ip: "192.168.10.1"
+      machine.vm.network "private_network", ip: "192.168.10.1", virtualbox__intnet: "thinclient-pxc"
 
       machine.vm.provider "virtualbox" do |vb|
         vb.memory = "2048"
