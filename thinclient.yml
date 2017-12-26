@@ -70,10 +70,10 @@
   - name: install required packages
     apt: name={{ item }} state=latest
     with_items:
-      - squashfs-tools
       - initramfs-tools
-      - cpio
+      - squashfs-tools
       - aufs-tools
+      - cpio
   - name: install general linux kernel packages
     apt: pkg={{ item }} state=latest
     with_items:
@@ -94,6 +94,13 @@
     notify: update initramfs
   - name: create helper directory for aufs
     file: path=/AUFS state=directory mode=0755
+  - name: config autologin on first console
+    template: src=temlate/{{ item }} dest=/etc/{{{ item }}} more=0644
+    with_items:
+      - systemd/system/getty@tty1.service.d/override.conf
+  - name: install GUI packages
+    include_tasks: thinclient_gui.yml
+    when: install_gui_and_rdp_client
   handlers:
     # update artifacts in build every time we need to regenerate initrd
     - name: update initramfs

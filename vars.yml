@@ -1,5 +1,7 @@
-# TODO
+# Change to have minimal system without graphics
 install_gui_and_rdp_client: no
+# For example: xserver-xorg-video-nouveau-hwe-16.04 for NVidia videocards
+additional_gui_packages: []
 
 builddir: /vagrant/build
 

@@ -1,0 +1,29 @@
+- name: intall gui packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+  - xserver-xorg-hwe-16.04
+  - xinit
+  - xserver-xorg-video-fbdev-hwe-16.04
+  - xserver-xorg-video-vesa-hwe-16.04
+  - xserver-xorg-video-intel-hwe-16.04
+  - xserver-xorg-video-vmware-hwe-16.04
+  - lxde-core
+  - lxde-common
+  - lxde-icon-theme
+  - lxsession
+  - lxterminal
+  - agetty
+- name: install additional gui packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+  - "{{ additional_gui_packages }}"
+- name: add remmina and freerdp ppa repository
+  apt_repository: repo="ppa:remmina-ppa-team/remmina-next"
+  register: apt_repo_remmina
+- name: update apt cache
+  apt: update_cache=yes
+  when: apt_repo_remmina|changed
+- name: install freerdp
+  apt: pkg={{ item }} state=latest
+  with_items:
+  - freerdp-x11
