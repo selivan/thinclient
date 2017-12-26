@@ -38,7 +38,7 @@ build-home() {
     mv /vagrant/build/home.tar.gz /vagrant/build/home.tar.gz.bak
     cd /home/ubuntu
     # Don't use default unsecure ssh keys
-    tar --exclude="./ubuntu/.ssh" -czf /vagrant/build/home.tar.gz ./
+    tar --exclude="./.ssh" -czf /vagrant/build/home.tar.gz ./
     cd -
     rm -f /vagrant/build/home.tar.gz.bak
 }
