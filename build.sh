@@ -6,7 +6,7 @@ build-kernel() {
     vmlinuz_filename=$(basename $vmlinuz_path)
     cp "$vmlinuz_path" /vagrant/build
     cd /vagrant/build
-    ln -sf "vmlinuz_filename" vnlinuz
+    ln -sf "$vmlinuz_filename" vnlinuz
     cd -
 }
 
