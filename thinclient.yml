@@ -16,7 +16,7 @@
       apt: name={{ item }} state=latest
       with_items:
         - dnsmasq
-        - nginx-lite
+        - nginx-light
         - pxelinux
         # this package has modules necessary for pxelinux to boot
         - syslinux-common
@@ -66,7 +66,7 @@
   - name: remove unnecessary packages
     apt: name={{ item }} state=absent
     with_items:
-      - [ apport, apport-symptoms, bcache-tools, byobu, cloud-init, cloud-guest-utils, cloud-initramfs-copymods, cloud-initramfs-dyn-netconf, cryptsetup, cryptsetup-bin, command-not-found, command-not-found-data, dosfstools, info, lvm2, mdadm, lxc-common, lxcfs, lxd, lxd-client, mlocate, overlayroot, rename, screen, tcpd, snapd, sosreport, ssh-import-id, ubuntu-core-launcher, ureadahead, ufw, unattended-upgrades, update-notifier-common, zerofree ]
+      - [ accountsservice, apport, apport-symptoms, bcache-tools, byobu, cloud-init, cloud-guest-utils, cloud-initramfs-copymods, cloud-initramfs-dyn-netconf, cryptsetup, cryptsetup-bin, command-not-found, command-not-found-data, dosfstools, info, lvm2, mdadm, lxc-common, lxcfs, lxd, lxd-client, mlocate, overlayroot, rename, screen, tcpd, snapd, sosreport, ssh-import-id, ubuntu-core-launcher, ureadahead, ufw, unattended-upgrades, update-notifier-common, zerofree ]
   - name: install required packages
     apt: name={{ item }} state=latest
     with_items:
@@ -74,6 +74,17 @@
       - initramfs-tools
       - cpio
       - aufs-tools
+  - name: install general linux kernel packages
+    apt: pkg={{ item }} state=latest
+    with_items:
+      - linux-image-generic-hwe-16.04-edge
+      - linux-firmware
+  - name: remove virtual linux kernel packages and headers
+    apt: pkg={{ item }} state=absent
+    with_items:
+      - linux-image-virtual
+      - linux-headers-virtual
+      - linux-headers-generic
   - name: install initramfs hook
     copy: src=template/{{ item }} dest=/etc/{{ item }} mode=0755
     with_items:
