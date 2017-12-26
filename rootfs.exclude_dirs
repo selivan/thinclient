@@ -1,0 +1,8 @@
+boot/*
+home/ubuntu/*
+/tmp/*
+usr/share/doc/*
+usr/share/man/*
+var/cache/apt/*
+usr/src/*
+var/log/*
