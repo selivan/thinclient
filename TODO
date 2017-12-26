@@ -6,6 +6,6 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] simplify overlays - no overlay build scripts
 [ ] auto remove old linux kernel packages
 [ ] test overlays and document it
-[ ] initrd - switch to bzip
+[x] initrd - switch to bzip
 [ ] server - make dnsmasq service boot after vbox-guest-utils (fails because cat't see shared directory).
 [ ] network interfaces - start dhcp for all interfaces in new machiine
