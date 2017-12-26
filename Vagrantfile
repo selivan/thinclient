@@ -1,6 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# For Ansible provisioning
 Vagrant.require_version ">= 1.7.0"
 
 Vagrant.configure("2") do |config|
@@ -30,7 +31,7 @@ Vagrant.configure("2") do |config|
   # Machine to be template for images
   # Provisioning is mostly  done later by "server" machine
   config.vm.define "template" do |machine|
-      machine.vm.network "private_network", ip: "192.168.10.2", virtualbox__intnet: "thinclient-pxc"
+      machine.vm.network "private_network", type: "dhcp", virtualbox__intnet: "thinclient-pxc"
 
       # Memory and CPU - to work faster with squashfs
       machine.vm.provider "virtualbox" do |vb|

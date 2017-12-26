@@ -39,11 +39,6 @@ build-rootfs() {
     mv /vagrant/build/rootfs.squashfs /vagrant/build/rootfs.squashfs.bak
     cd /
     generate-rootfs-excludes /tmp/rootfs.exclude_dirs
-    # -always-use-fragments use fragment blocks for files larger than block size
-    # -noappend do not append to existing filesystem
-    #mksquashfs . /vagrant/build/rootfs.squashfs -noappend -always-use-fragments -comp xz -wildcards -ef /vagrant/rootfs.exclude_dirs
-    #mksquashfs . /vagrant/build/rootfs.squashfs -noappend -always-use-fragments -comp xz -regex -ef /vagrant/rootfs.exclude_dirs
-    #mksquashfs . /vagrant/build/rootfs.squashfs -noappend -always-use-fragments -comp xz -ef /vagrant/rootfs.exclude_dirs
     mksquashfs . /vagrant/build/rootfs.squashfs -noappend -always-use-fragments -comp xz -ef /tmp/rootfs.exclude_dirs \
     && rm -f /vagrant/build/rootfs.squashfs.bak
     cd -

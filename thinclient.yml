@@ -95,5 +95,6 @@
   - name: create helper directory for aufs
     file: path=/AUFS state=directory mode=0755
   handlers:
+    # update artifacts in build every time we need to regenerate initrd
     - name: update initramfs
       shell: update-initramfs -u && cd /vagrant && ./build.sh initrd
