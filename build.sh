@@ -54,6 +54,8 @@ build-home() {
     rm -f /vagrant/build/home.tar.gz.bak
 }
 
+source $(dirname "$0")/vars.sh
+
 case "$1" in
     all)
         build-kernel
