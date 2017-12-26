@@ -1,4 +1,4 @@
-TODO: write normal documantation.
+TODO: write detailed documentation.
 
 Server machine is used to provision both itself and template machine, because we don't want additional packages(ansible) in image.
 Though we have to install python2-minimal to make ansible work.
