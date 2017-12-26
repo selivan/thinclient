@@ -14,6 +14,6 @@ This project was originaly created by [efim-a-efim](https://github.com/efim-a-ef
 
 [USAGE](https://github.com/selivan/thinclient/blob/master/USAGE.md).
 
-## LICENSE: [GPL v3](https://github.com/selivan/thinclient/blob/master/LICENSE)
+## LICENSE: [GPL v3](LICENSE)
 
 **P.S.** If this code is useful for you - don't forget to put a star on it's [github repo](https://github.com/selivan/thinclient).
