@@ -1,4 +1,10 @@
-src/rootfs.base/
-src/rootfs.base_exclude/
+# build images
 build
+# vagrant artifacts
+.vagrant
+*.log
+# ansible artifacts
+*.retry
+# generated variables file
+vars.sh
 

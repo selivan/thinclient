@@ -1,0 +1,34 @@
+deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} main restricted
+# deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} main restricted
+
+## Updates
+deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates main restricted
+# deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates main restricted
+
+## Security
+deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security main restricted
+deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security universe
+deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security multiverse
+# deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security main restricted
+# deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security universe
+# deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security multiverse
+
+## Universe
+deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} universe
+deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates universe
+# deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} universe
+# deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates universe
+
+## Multiverse
+deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} multiverse
+deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }} multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates multiverse
+
+## Backports
+# deb http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-backports main restricted universe multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-backports main restricted universe multiverse
+
+## Canonical's 'partner' repository.
+# deb http://archive.canonical.com/ubuntu {{ ansible_distribution_release }} partner
+# deb-src http://archive.canonical.com/ubuntu {{ ansible_distribution_release }} partner

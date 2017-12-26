@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-cd `dirname $0`
-rm ./src/initrd -rf
-mkdir ./src/initrd
-cd ./src/initrd
-bzip2 -dc ../../build/initrd.img | cpio -id
-cd `dirname $0`
-
+cd $(dirname $0)
+mkdir -p unpacked-initrd
+# Clean old files
+find ./unpacked-initrd/ -mindepth 1 -depth -delete
+cd unpacked-initrd
+bzip2 -dc ../initrd.img | cpio -id
+cd -

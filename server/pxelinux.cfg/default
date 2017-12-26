@@ -1,0 +1,7 @@
+default thinclient
+prompt 0
+
+# console=tty1 console=ttyS0,115200n8
+label thinclient
+    kernel vmlinuz
+    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz
