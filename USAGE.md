@@ -1,6 +1,6 @@
 You need git, [Virtualbox](https://www.virtualbox.org) and [Vagrant](https://www.vagrantup.com/).
 
-Clone this repository:\
+Clone this repository:
 ```
 git clone https://github.com/selivan/thinclient.git
 cd thinclient
