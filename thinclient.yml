@@ -64,7 +64,7 @@
     apt: update_cache=yes
     when: apt_sources_list|changed
   - name: remove unnecessary packages
-    apt: name={{ item }} state=absent
+    apt: name={{ item }} state=absent purge=yes
     with_items:
       - "{{ unnecessary_packages }}"
   - name: install required packages
