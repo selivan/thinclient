@@ -12,7 +12,6 @@
   - lxde-icon-theme
   - lxsession
   - lxterminal
-  - agetty
 - name: install additional gui packages
   apt: pkg={{ item }} state=latest
   with_items:
@@ -27,3 +26,5 @@
   apt: pkg={{ item }} state=latest
   with_items:
   - freerdp-x11
+- name: create user bash_profile to autostart X session on first console
+  template: src=template/home/bash_profile dest=/home/ubuntu/.bash_profile user=ubuntu mode=0640
