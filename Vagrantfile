@@ -14,6 +14,8 @@ Vagrant.configure("2") do |config|
 
   # Machine to test images, boots from PXE
   config.vm.define "test" do |machine|
+      # Disable synced folders
+      machine.vm.synced_folder ".", "/vagrant", disabled: true
       # Manual interface configuration
       machine.vm.provider "virtualbox" do |vb|
         # This is debug machine, we need to see the interface
