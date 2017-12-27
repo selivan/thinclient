@@ -8,6 +8,6 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] test overlays and document it
 [x] initrd - switch to bzip
 [x] server - make dnsmasq service wlawys restart on fail (fails because cat't see shared directory).
-[ ] network interfaces - start dhcp for all interfaces in new machiine
+[ ] network interfaces - start dhcp for all interfaces in new machine
 [x] change server IP from 192.168.10.1 - to prevent Vagrant warnings
 [x] console autologin https://wiki.archlinux.org/index.php/Getty#Automatic_login_to_virtual_console
