@@ -31,6 +31,11 @@
     - name: install dnsmasq configs
       template: src=server/dnsmasq/dnsmasq.conf dest=/etc/dnsmasq.conf mode=0644
       notify: restart dnsmasq
+    - name: install dnsmasq systemd config override
+      template: src=server/{{ item }} dest=/etc/{{ item }} mode=0640
+      with_items:
+        - systemd/system/dnsmasq.service.d/override.conf
+      notify: systemctl daemon-reload
     - name: create symlinks for pxelinux loader
       file: path={{ item.path }} state=link src={{ item.src }}
       with_items:
@@ -51,6 +56,8 @@
       service: name=dnsmasq state=restarted
     - name: restart nginx
       service: name=nginx state=restarted
+    - name: systemctl daemon-reload
+      shell: systemctl daemon-reload
 
 - hosts: template
   become: yes
@@ -100,6 +107,7 @@
     template: src=temlate/{{ item }} dest=/etc/{{{ item }}} more=0644
     with_items:
       - systemd/system/getty@tty1.service.d/override.conf
+    notify: systemctl daemon-reload
   - name: install GUI packages
     include_tasks: thinclient_gui.yml
     when: install_gui_and_rdp_client
@@ -107,3 +115,5 @@
     # update artifacts in build every time we need to regenerate initrd
     - name: update initramfs
       shell: update-initramfs -u && cd /vagrant && ./build.sh initrd
+    - name: systemctl daemon-reload
+      shell: systemctl daemon-reload
