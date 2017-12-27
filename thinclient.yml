@@ -31,6 +31,8 @@
     - name: install dnsmasq configs
       template: src=server/dnsmasq/dnsmasq.conf dest=/etc/dnsmasq.conf mode=0644
       notify: restart dnsmasq
+      # dnsmasq fails to start if tftp directory /vagrant/build is not ready yet
+      # this makes it try infinitely
     - name: install dnsmasq systemd config override
       template: src=server/{{ item }} dest=/etc/{{ item }} mode=0640
       with_items:
