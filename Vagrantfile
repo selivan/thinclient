@@ -13,7 +13,8 @@ Vagrant.configure("2") do |config|
   #config.vm.box_check_update = false
 
   # Machine to test images, boots from PXE
-  config.vm.define "test" do |machine|
+  # No autostart - useless without uther machines
+  config.vm.define "test", autostart: false do |machine|
       # Disable synced folders
       machine.vm.synced_folder ".", "/vagrant", disabled: true
       # Manual interface configuration
