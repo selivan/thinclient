@@ -61,7 +61,9 @@ Server machine is cofigured as DHCP and TFTP server(dnsmasq), and HTTP server(ng
 
 Start test machine. If everything is OK, it should boot with your image over network from server machine.
 
-Shortcuts for connection to RDP servers are created from parameter `rdpservers` in `pxelinux.cfg`. It takes form `<server name 1>:<address>:<port>:<xfreerdp params>;<server name 2>:<address>:<port>:<xfreerdp params>`. xfreerdp parameters should be divided by `%` instead of spaces. Example:
+Shortcuts for connection to RDP servers are created from parameter `rdpservers` in `pxelinux.cfg`. It takes form\
+`<server name 1>:<address>:<port>:<xfreerdp params>;<server name 2>:<address>:<port>:<xfreerdp params>`
+xfreerdp parameters should be divided by `%` instead of spaces. Example:
 
 ```
 rdpservers=dc1:dc1.example.net:3389;dc2:dc2.example.net:3390:/sec:rdp%/bpp:24
