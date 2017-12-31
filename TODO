@@ -1,7 +1,7 @@
 [x] network configuration for node by vagrant, example: https://www.vagrantup.com/docs/provisioning/ansible_local.html#ansible-parallel-execution-from-a-guest
 https://www.vagrantup.com/docs/networking/public_network.html
 https://www.vagrantup.com/docs/networking/private_network.html
-[ ] install X, rdp client, auto script to parse kernel boot params for RDP servers. Use parameter in vars.yml, default: yes. User should disable it to build minimal image without gui.
+[x] install X, rdp client, auto script to parse kernel boot params for RDP servers. Use parameter in vars.yml, default: yes. User should disable it to build minimal image without gui.
 [ ] scripts - use new paths and vars.sh
 [ ] simplify overlays - no overlay build scripts
 [ ] auto remove old linux kernel packages
