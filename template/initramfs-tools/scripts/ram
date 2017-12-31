@@ -63,7 +63,7 @@ do_rammount()
 		mkdir $dir_move
 
 		echo "Downloading overlay $i"
-		get_url 'tftp' "$i" $file || return $?
+		get_url "$overlayproto" "$i" $file || return $?
 
 		echo "Extracting overlay $i to tmpfs"
 		mount -t tmpfs none $dir
@@ -154,7 +154,7 @@ mountroot()
 						;;
 				overlays=*)
 						overlays=${x#overlays=}
-						export overlays=$( echo $overlays | tr ',' ' ' )
+						export overlays=$( echo $overlays | tr ';' ' ' )
 						;;
 				overlayproto=*)
 						export overlayproto=${x#overlayproto=}
@@ -188,6 +188,7 @@ mountroot()
 
 		# Start debug shell inside initrd if initrddebug is set
 		if [ -n "$initrddebug" ]; then
+			echo "DEBUG shell inside initrd"
 			sh
 		fi
 

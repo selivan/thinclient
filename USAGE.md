@@ -60,3 +60,26 @@ Command will end up with error, it's OK: first interface is used for network boo
 Server machine is cofigured as DHCP and TFTP server(dnsmasq), and HTTP server(nginx). HTTP is used to transfer huge rootfs image and home directory archive. In test environment you can transfer huge files with TFTP. But in real networks it is not very suitable for this task.
 
 Start test machine. If everything is OK, it should boot with your image over network from server machine.
+
+Shortcuts for connection to RDP servers are created from parameter `rdpservers` in `pxelinux.cfg`. It takes form `<server name 1>:<address>:<port>:<xfreerdp params>;<server name 2>:<address>:<port>:<xfreerdp params>`. xfreerdp parameters should be divided by `%` instead of spaces. Example:
+
+```
+rdpservers=dc1:dc1.example.net:3389;dc2:dc2.example.net:3390:/sec:rdp%/bpp:24
+```
+
+This will generate this two desktop shotucuts:
+
+* dc1: `xfreerdp /workarea /f /v dc1.example.net:3389`
+* dc2: `xfreerdp /workarea /f /v /sec:rdp /bpp:24 dc2.example.net:3390`
+
+Check [freerdp documentation](https://github.com/FreeRDP/FreeRDP/wiki/CommandLineInterface) and `xfreerdp --help` for possible parameters.
+
+## Overlays
+It is possible to mount one or more file archives(*.tar.gz) over root filesystem. For example, you can add some software in `/opt` only for several workstations, without modifying the whole image.
+
+Parameters in `pxelinux.cfg`:
+```
+overlayproto=http overlays=overlay1.tar.gz;overlay2.tar.gz
+```
+
+This will download `http://<pxe server ip>/overlay1.tar.gz` and `http://<pxe server ip>/overlay2.tar.gz` and will mount them over rootfs.

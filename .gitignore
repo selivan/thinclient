@@ -7,3 +7,7 @@ build
 *.retry
 # generated variables file for scripts
 vars.sh
+# unpacked initrd and rootfs - for debug
+unpacked-initrd
+unpacked-rootfs
+
