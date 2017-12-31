@@ -106,7 +106,7 @@
   - name: create helper directory for aufs
     file: path=/AUFS state=directory mode=0755
   - name: config autologin on first console
-    template: src=temlate/{{ item }} dest=/etc/{{{ item }}} more=0644
+    template: src=template/{{ item }} dest=/etc/{{ item }}} mode=0644
     with_items:
       - systemd/system/getty@tty1.service.d/override.conf
     notify: systemctl daemon-reload
