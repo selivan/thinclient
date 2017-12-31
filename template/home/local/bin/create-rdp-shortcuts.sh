@@ -25,6 +25,7 @@ cat /proc/cmdline \
             echo "Name=$name" >> "$desktop_file"
             echo "Terminal=false" >> "$desktop_file"
             echo "Type=Application" >> "$desktop_file"
+            echo "Icon=destop" >> "$desktop_file"
             echo "Exec=$exec" >> "$desktop_file"
             # Desktop environment may display warning if desktop file is not executable
             chmod a+x "$desktop_file"

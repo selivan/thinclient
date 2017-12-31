@@ -34,6 +34,6 @@
     - /home/ubuntu/.config/autostart
     - /home/ubuntu/.local/bin
 - name: script to create RDP shortcuts
-  template: src=template/home/local/bin/create-rdp-shortcuts.sh dest=/home/ubuntu/.local/bin/create-rdp-shortcuts.sh mode=0744
+  template: src=template/home/local/bin/create-rdp-shortcuts.sh dest=/home/ubuntu/.local/bin/create-rdp-shortcuts.sh owner=ubuntu mode=0755
 - name: autostart entry to create RDP shortcuts
-  template: src=template/home/config/autostart/create-rdp-shortcuts.desktop dest=/home/ubuntu/.config/autostart/create-rdp-shortcuts.desktop mode=0755
+  template: src=template/home/config/autostart/create-rdp-shortcuts.desktop dest=/home/ubuntu/.config/autostart/create-rdp-shortcuts.desktop owner=ubuntu mode=0755
