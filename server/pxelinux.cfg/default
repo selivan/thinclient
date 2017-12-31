@@ -3,6 +3,10 @@ prompt 0
 
 # DEBUG with serial console
 # console=tty1 console=ttyS0,115200n8
+# DEBUG shell inside initrd
+# initrddebug=y
+# Mount overlays over rootfs
+# overlayproto=http overlays=overlay1.tar.gz,overlay2.tar.gz
 label thinclient
     kernel vmlinuz
-    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=dc1:dc1.example.net:3389;dc2:dc2.example.net:5555:/sec:rdp
+    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=dc1:dc1.example.net:3389;dc2:dc2.example.net:5555:/sec:rdp%/bpp:24

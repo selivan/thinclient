@@ -2,7 +2,7 @@
 # Create shortcuts for RDP connections
 
 desktop_dir="${XDG_DESKTOP_DIR:-$HOME/Desktop}"
-default_options="/workarea /f /bpp:16"
+default_options="/workarea /f"
 
 # DEBUG
 # echo "boot=ram rdpservers=MAIN:dc1.example.net:3389;BACKUP:dc2.example.net:3389:/sec:rdp%/bpp:24" \
