@@ -1,6 +1,4 @@
-TODO: write detailed documentation.
-
-Previous versions used chroot. To simplify things for end user, I swithed to Vagrant: now process is 
+Previous versions used chroot. To simplify things for end user, I swithed to Vagrant. You just configure normal virtual machine and run script to generate images.
 
 ## Provision
 

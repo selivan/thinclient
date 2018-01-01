@@ -15,4 +15,8 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] Display message for N sec and reboot from initrd if something goes wrong
 [ ] Playbook structure: provision.yml -> provision_server.yml, provision_client.yml, provision_client_gui.yml
 
-/proc/8851
+Probable alternative:
+Single build/server machine, chroot, mksquashfs --ex ...,
+Single test machine
+* https://wiki.archlinux.org/index.php/Change_root#Run_graphical_applications_from_chroot
+* https://superuser.com/questions/688766/how-to-start-xorg-server-inside-plain-chroot#791643
