@@ -96,6 +96,21 @@
       - linux-image-virtual
       - linux-headers-virtual
       - linux-headers-generic
+  - name: remove old linux kernel and header packages
+    shell: |
+      apt-cache depends linux-image-virtual | tr -s ' ' | grep '^ Depends:' | cut -d' ' -f3 | while read pkg; do
+        if dpkg -l | grep ^ii | grep -q $pkg; then
+            apt-get -y --force-yes --purge remove $pkg
+        fi
+      done
+      apt-cache depends linux-headers-generic | tr -s ' ' | grep '^ Depends:' | cut -d' ' -f3 | while read pkg; do
+        if dpkg -l | grep ^ii | grep -q $pkg; then
+            apt-get -y --force-yes --purge remove $pkg
+        fi
+      done
+    executable: /bin/bash
+    register: apt_result
+    changed_when: apt_result.stdout != ''
   - name: install initramfs hook script and config
     copy: src=template/{{ item }} dest=/etc/{{ item }} mode=0755
     with_items:
