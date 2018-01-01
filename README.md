@@ -12,8 +12,8 @@ This project was originaly created by [efim-a-efim](https://github.com/efim-a-ef
 
 ## DOCUMENTATION
 
-* [USAGE](USAGE.md)
-* [INTERNALS](INTERNALS.md)
+* [USAGE](docs/USAGE.md)
+* [INTERNALS](docs/INTERNALS.md)
 
 ## LICENSE: [GPL v3](LICENSE)
 
