@@ -93,7 +93,7 @@ do_rammount()
 	echo "Creating tmpfs rw filesystem for /var/log"
 	mount -t tmpfs none "${rootmnt}"/var/log
 
-	echo "Creating tmpfs rw filesystem for /var/log"
+	echo "Creating tmpfs rw filesystem for /var/lib/dhcp"
 	mount -t tmpfs none "${rootmnt}"/var/lib/dhcp
 
 	echo "STRANGE MAGIC FINISHED"
