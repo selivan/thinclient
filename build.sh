@@ -39,8 +39,17 @@ build-rootfs() {
     mv /vagrant/build/rootfs.squashfs /vagrant/build/rootfs.squashfs.bak
     cd /
     generate-rootfs-excludes /tmp/rootfs.exclude_dirs
+    # Change interfaces file to symlink
+    # To exclude Vagrant static interfaces
+    echo "Backup /etc/network/interfaces"
+    mv /etc/network/interfaces /etc/network/interfaces.bak
+    ln -sf /tmp/interfaces /etc/network/interfaces
     mksquashfs . /vagrant/build/rootfs.squashfs -noappend -always-use-fragments -comp xz -ef /tmp/rootfs.exclude_dirs \
     && rm -f /vagrant/build/rootfs.squashfs.bak
+    # Restore interfaces file
+    echo "Restore original /etc/network/interfaces"
+    rm -f /etc/network/interfaces
+    mv /etc/network/interfaces.bak /etc/network/interfaces
     cd -
 }
 

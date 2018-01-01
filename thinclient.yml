@@ -112,6 +112,8 @@
       executable: /bin/bash
     register: apt_result
     changed_when: apt_result.stdout != ''
+  - name: remove cloudinit generated interfaces config
+    file: path=/etc/network/interfaces.d/50-cloud-init.cfg state=absent
   - name: install initramfs hook script and config
     copy: src=template/{{ item }} dest=/etc/{{ item }} mode=0755
     with_items:
