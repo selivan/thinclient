@@ -23,3 +23,4 @@ Problems with running X inside chroot. Probable solutions:
 * https://wiki.archlinux.org/index.php/Change_root#Run_graphical_applications_from_chroot
 * https://superuser.com/questions/688766/how-to-start-xorg-server-inside-plain-chroot#791643
 * https://kb8ojh.net/elb/musings/tag/xpra
+* https://wiki.gentoo.org/wiki/Project:X86/Chroot_Guide#Running_X_apps_inside_the_chroot
