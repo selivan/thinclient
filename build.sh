@@ -26,7 +26,7 @@ build-initrd() {
 # I coulnd't make mksquashfs to exclude all files in /var/log, but include /var/log directory
 # So let's generate all files to exclude explicitly
 generate-rootfs-excludes() {
-    for d in /boot /dev /proc /sys /tmp /run /mnt /home/ubuntu /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /usr/src; do
+    for d in /boot /dev /proc /sys /tmp /run /mnt /home/ubuntu /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /usr/src /var/lib/dhcp/; do
         find $d -mindepth 1 -maxdepth 1 >> "$1"
     done
     echo /vagrant >> "$1"
@@ -44,7 +44,7 @@ build-rootfs() {
     echo "Backup /etc/network/interfaces"
     mv /etc/network/interfaces /etc/network/interfaces.bak
     ln -sf /tmp/interfaces /etc/network/interfaces
-    mksquashfs . /vagrant/build/rootfs.squashfs -noappend -always-use-fragments -comp xz -ef /tmp/rootfs.exclude_dirs \
+    mksquashfs . /vagrant/build/rootfs.squashfs -no-xattrs -noappend -always-use-fragments -comp xz -ef /tmp/rootfs.exclude_dirs \
     && rm -f /vagrant/build/rootfs.squashfs.bak
     # Restore interfaces file
     echo "Restore original /etc/network/interfaces"

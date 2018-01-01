@@ -12,6 +12,16 @@
   - lxde-icon-theme
   - lxsession
   - lxterminal
+- name: remove unnecessary gui packages
+  apt: pkg={{ item }} state=absent purge=yes
+  with_items:
+    - gnome-screenshot
+    - xscreensaver
+    - xscreensaver-data
+    - lxtask
+- name: remove dependencies that are no longer required
+  apt:
+    autoremove: yes
 - name: install additional gui packages
   apt: pkg={{ item }} state=latest
   with_items:

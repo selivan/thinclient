@@ -14,3 +14,5 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] User overlayfs instead of AUFS
 [ ] Display message for N sec and reboot from initrd if something goes wrong
 [ ] Playbook structure: provision.yml -> provision_server.yml, provision_client.yml, provision_client_gui.yml
+
+/proc/8851

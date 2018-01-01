@@ -76,7 +76,8 @@
     template: src=template/scripts/generate-interfaces.sh dest=/usr/local/bin/generate-interfaces.sh mode=0755
   - name: systemd service to generate interfaces file
     template: src=template/systemd/system/generate-interfaces.service dest=/etc/systemd/system/generate-interfaces.service mode=0644
-    notify: systemctl enable generate-interfaces.service
+  - name: enable systemd service to generate interfaces file
+    service: name=generate-interfaces.service enabled=yes
   - name: install apt sources.list
     template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
     register: apt_sources_list
@@ -87,6 +88,9 @@
     apt: name={{ item }} state=absent purge=yes
     with_items:
       - "{{ unnecessary_packages }}"
+  - name: remove dependencies that are no longer required
+    apt:
+      autoremove: yes
   - name: install required packages
     apt: name={{ item }} state=latest
     with_items:
@@ -132,8 +136,10 @@
     notify: update initramfs
   - name: create helper directory for aufs
     file: path=/AUFS state=directory mode=0755
+  - name: create config directory getty@tty1.service.d
+    file: path=/etc/systemd/system/getty@tty1.service.d state=directory
   - name: config autologin on first console
-    template: src=template/{{ item }} dest=/etc/{{ item }}} mode=0644
+    template: src=template/{{ item }} dest=/etc/{{ item }} mode=0644
     with_items:
       - systemd/system/getty@tty1.service.d/override.conf
     notify: systemctl daemon-reload
@@ -146,5 +152,3 @@
       shell: update-initramfs -u && cd /vagrant && ./build.sh initrd
     - name: systemctl daemon-reload
       shell: systemctl daemon-reload
-    - name: systemctl enable generate-interfaces.service
-      shell: systemctl enable generate-interfaces.service
