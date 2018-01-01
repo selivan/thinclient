@@ -108,7 +108,8 @@
             apt-get -y --force-yes --purge remove $pkg
         fi
       done
-    executable: /bin/bash
+    args:
+      executable: /bin/bash
     register: apt_result
     changed_when: apt_result.stdout != ''
   - name: install initramfs hook script and config

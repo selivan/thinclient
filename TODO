@@ -4,7 +4,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] install X, rdp client, auto script to parse kernel boot params for RDP servers. Use parameter in vars.yml, default: yes. User should disable it to build minimal image without gui.
 [ ] scripts - use new paths and vars.sh
 [x] simplify overlays - no overlay build scripts
-[ ] auto remove old linux kernel packages
+[x] auto remove old linux kernel packages
 [x] test overlays and document it
 [x] initrd - switch to bzip
 [x] server - make dnsmasq service wlawys restart on fail (fails because cat't see shared directory).
