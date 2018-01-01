@@ -114,7 +114,8 @@
     changed_when: apt_result.stdout != ''
   - name: append clouudinit generated interfaces config to main interfaces file
     shell: cat /etc/network/interfaces.d/50-cloud-init.cfg >> /etc/network/interfaces
-    removes: /etc/network/interfaces.d/50-cloud-init.cfg
+    args:
+      removes: /etc/network/interfaces.d/50-cloud-init.cfg
   - name: remove cloudinit generated interfaces config
     file: path=/etc/network/interfaces.d/50-cloud-init.cfg state=absent
   - name: script to generate interfaces file
