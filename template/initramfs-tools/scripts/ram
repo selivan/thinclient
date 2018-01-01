@@ -177,8 +177,6 @@ mountroot()
 		# For DHCP
 		modprobe af_packet
 
-		wait_for_udev 10
-
 		# Default delay is around 180s
 		delay=${ROOTDELAY:-180}
 
