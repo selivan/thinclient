@@ -1,0 +1,32 @@
+- hosts: server
+  become: yes
+  tasks:
+    - name: read config variables
+      include_vars: vars.yml
+      # /vagrant path is used because ansible_local playbook runs inside virtual host
+    - name: include provision_server.yml
+      include_tasks: provision_server.yml
+  handlers:
+    - name: restart dnsmasq
+      service: name=dnsmasq state=restarted
+    - name: restart nginx
+      service: name=nginx state=restarted
+    - name: systemctl daemon-reload
+      shell: systemctl daemon-reload
+
+- hosts: template
+  become: yes
+  tasks:
+  - name: read config variables
+    include_vars: vars.yml
+  - name: include provision_template.yml
+    include_tasks: provision_template.yml
+  - name: install GUI packages
+    include_tasks: provision_template_gui.yml
+    when: install_gui_and_rdp_client
+  handlers:
+    # update artifacts in build every time we need to regenerate initrd
+    - name: update initramfs
+      shell: update-initramfs -u && cd /vagrant && ./build.sh initrd
+    - name: systemctl daemon-reload
+      shell: systemctl daemon-reload

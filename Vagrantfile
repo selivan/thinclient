@@ -80,8 +80,8 @@ Vagrant.configure("2") do |config|
         ansible.limit = "all"
         ansible.raw_arguments = [ "--ssh-common-args=\"-o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes\"" ]
         ansible.verbose = "v"
-        ansible.playbook = "thinclient.yml"
-        ansible.inventory_path = "thinclient.inventory.ini"
+        ansible.playbook = "provision.yml"
+        ansible.inventory_path = "provision.inventory.ini"
       end
 
   end

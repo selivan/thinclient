@@ -1,0 +1,79 @@
+- name: append cloud-init generated interfaces config to main interfaces file
+  shell: cat /etc/network/interfaces.d/50-cloud-init.cfg >> /etc/network/interfaces
+  args:
+    removes: /etc/network/interfaces.d/50-cloud-init.cfg
+- name: remove cloudinit generated interfaces config
+  file: path=/etc/network/interfaces.d/50-cloud-init.cfg state=absent
+- name: script to generate interfaces file
+  template: src=template/scripts/generate-interfaces.sh dest=/usr/local/bin/generate-interfaces.sh mode=0755
+- name: systemd service to generate interfaces file
+  template: src=template/systemd/system/generate-interfaces.service dest=/etc/systemd/system/generate-interfaces.service mode=0644
+- name: enable systemd service to generate interfaces file
+  service: name=generate-interfaces.service enabled=yes
+- name: install apt sources.list
+  template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
+  register: apt_sources_list
+- name: update apt cache
+  apt: update_cache=yes
+  when: apt_sources_list|changed
+- name: remove unnecessary packages
+  apt: name={{ item }} state=absent purge=yes
+  with_items:
+    - "{{ unnecessary_packages }}"
+- name: remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+- name: install required packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - initramfs-tools
+    - squashfs-tools
+    - aufs-tools
+    - cpio
+    # console autologin
+    - mingetty
+- name: install general linux kernel packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - linux-image-generic-hwe-16.04-edge
+    - linux-firmware
+- name: remove virtual linux kernel packages and headers
+  apt: pkg={{ item }} state=absent
+  with_items:
+    - linux-image-virtual
+    - linux-headers-virtual
+    - linux-headers-generic
+- name: remove old linux kernel and header packages
+  shell: |
+    apt-cache depends linux-image-virtual | tr -s ' ' | grep '^ Depends:' | cut -d' ' -f3 | while read pkg; do
+      if dpkg -l | grep ^ii | grep -q $pkg; then
+          apt-get -y --force-yes --purge remove $pkg
+      fi
+    done
+    apt-cache depends linux-headers-generic | tr -s ' ' | grep '^ Depends:' | cut -d' ' -f3 | while read pkg; do
+      if dpkg -l | grep ^ii | grep -q $pkg; then
+          apt-get -y --force-yes --purge remove $pkg
+      fi
+    done
+  args:
+    executable: /bin/bash
+  register: apt_result
+  changed_when: apt_result.stdout != ''
+- name: install initramfs hook script and config
+  copy: src=template/{{ item }} dest=/etc/{{ item }} mode=0755
+  with_items:
+    - initramfs-tools/hooks/zz_custom
+    - initramfs-tools/scripts/ram
+    - initramfs-tools/initramfs.conf
+  notify: update initramfs
+- name: create helper directory for aufs
+  file: path=/AUFS state=directory mode=0755
+- name: create config directory getty@tty1.service.d
+  file: path=/etc/systemd/system/getty@tty1.service.d state=directory
+- name: config autologin on first console
+  template: src=template/{{ item }} dest=/etc/{{ item }} mode=0644
+  with_items:
+    - systemd/system/getty@tty1.service.d/override.conf
+  notify: systemctl daemon-reload
+- name: set password for uubntu user to enable autologin
+  user: name=ubuntu password={{ 'ubuntu' | hash('sha512') }}

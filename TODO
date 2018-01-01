@@ -14,7 +14,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] console autologin https://wiki.archlinux.org/index.php/Getty#Automatic_login_to_virtual_console
 [ ] Use overlayfs instead of AUFS
 [ ] Display message for N sec and reboot from initrd if something goes wrong
-[ ] Playbook structure: provision.yml -> provision_server.yml, provision_client.yml, provision_client_gui.yml
+[x] Playbook structure: provision.yml -> provision_server.yml, provision_client.yml, provision_client_gui.yml
 
 Probable alternative:
 Single build/server machine, chroot, mksquashfs --ex ...,
@@ -25,3 +25,6 @@ Problems with running X inside chroot. Probable solutions:
 * https://kb8ojh.net/elb/musings/tag/xpra
 * https://wiki.gentoo.org/wiki/Project:X86/Chroot_Guide#Running_X_apps_inside_the_chroot
 * https://xpra.org/trac/wiki/Usage
+* http://0pointer.de/blog/projects/changing-roots
+
+Or just start X in main system and pass session with $DISPLAY and .Xauthoority and .xinitrc(is it possible?)

@@ -1,0 +1,49 @@
+- name: generate variables for shell scripts
+  local_action: template src=vars.sh.j2 dest=/vagrant/vars.sh
+- name: install apt sources.list
+  template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
+  register: apt_sources_list
+- name: update apt cache
+  apt: update_cache=yes
+  when: apt_sources_list|changed
+- name: install required packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - dnsmasq
+    - nginx-light
+    - pxelinux
+    # this package has modules necessary for pxelinux to boot
+    - syslinux-common
+    - rsync
+- name: install some packages for convenient work
+  apt: name={{ item }} state=latest
+  with_items:
+    - bash-completion
+    - tmux
+    - mc
+    - vim-tiny
+- name: install dnsmasq configs
+  template: src=server/dnsmasq/dnsmasq.conf dest=/etc/dnsmasq.conf mode=0644
+  notify: restart dnsmasq
+  # dnsmasq fails to start if tftp directory /vagrant/build is not ready yet
+  # this makes it try infinitely
+- name: install dnsmasq systemd config override
+  template: src=server/{{ item }} dest=/etc/{{ item }} mode=0640
+  with_items:
+    - systemd/system/dnsmasq.service.d/override.conf
+  notify: systemctl daemon-reload
+- name: create symlinks for pxelinux loader
+  file: path={{ item.path }} state=link src={{ item.src }}
+  with_items:
+    - { path: '/vagrant/build/pxelinux.0', src: '/usr/lib/PXELINUX/pxelinux.0' }
+    - { path: '/vagrant/build/ldlinux.c32', src: '/usr/lib/syslinux/modules/bios/ldlinux.c32' }
+- name: install nginx default site config
+  template: src=server/nginx/sites-available/default dest=/etc/nginx/sites-available/default mode=0644
+  notify: restart nginx
+- name: enable nginx default site
+  file: path=/etc/nginx/sites-enabled/default state=link src=/etc/nginx/sites-available/default
+  notify: restart nginx
+- name: create pxelinux.cfg directory
+  file: path=/vagrant/build/pxelinux.cfg state=directory mode=0755
+- name: copy pxelinux default configs
+  copy: src=server/pxelinux.cfg/default dest=/vagrant/build/pxelinux.cfg/default mode=0644
