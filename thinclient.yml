@@ -112,8 +112,16 @@
       executable: /bin/bash
     register: apt_result
     changed_when: apt_result.stdout != ''
+  - name: append clouudinit generated interfaces config to main interfaces file
+    shell: cat /etc/network/interfaces.d/50-cloud-init.cfg >> /etc/network/interfaces
+    removes: /etc/network/interfaces.d/50-cloud-init.cfg
   - name: remove cloudinit generated interfaces config
     file: path=/etc/network/interfaces.d/50-cloud-init.cfg state=absent
+  - name: script to generate interfaces file
+    template: src=scripts/generate-interfaces.sh dest=/usr/local/bin/generate-interfaces.sh mode=0755
+  - name: systemd service to generate interfaces file
+    template: src=template/systemd/system/generate-interfaces.service dest=/etc/systemd/system/generate-interfaces.service mode=0644
+    notify: systemctl enable generate-interfaces.service
   - name: install initramfs hook script and config
     copy: src=template/{{ item }} dest=/etc/{{ item }} mode=0755
     with_items:
@@ -137,3 +145,5 @@
       shell: update-initramfs -u && cd /vagrant && ./build.sh initrd
     - name: systemctl daemon-reload
       shell: systemctl daemon-reload
+    - name: systemctl enable generate-interfaces.service
+      shell: systemctl enable generate-interfaces.service

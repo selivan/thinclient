@@ -1,0 +1,10 @@
+[Unit]
+Description=Generate /tmp/interfaces file
+Before=networking.service
+
+[Install]
+RequiredBy=networking.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/generate-interfaces.sh
