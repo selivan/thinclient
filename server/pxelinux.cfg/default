@@ -9,4 +9,4 @@ prompt 0
 # overlayproto=http overlays=overlay1.tar.gz,overlay2.tar.gz
 label thinclient
     kernel vmlinuz
-    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp_server1:dc1.example.net:3389;rdp_server2:dc2.example.net:5555:/sec:rdp%/bpp:24
+    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp%server1:dc1.example.net:3389;rdp%server2:dc2.example.net:5555:/sec:rdp%/bpp:24
