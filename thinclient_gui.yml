@@ -39,7 +39,7 @@
 - name: user bash_profile to autostart X session on first console
   template: src=template/home/bash_profile dest=/home/ubuntu/.bash_profile owner=ubuntu mode=0640
 - name: user config directories
-  file: path={{ item }} state=directory recurse=yes
+  file: path={{ item }} state=directory recurse=yes owner=ubuntu
   with_items:
     - /home/ubuntu/.config/autostart
     - /home/ubuntu/.local/bin
