@@ -1,6 +1,4 @@
 #!/bin/sh -x
-retry_nr=0
-#set -x
 
 get_url()
 {
@@ -180,8 +178,8 @@ mountroot()
 		# Default delay is around 180s
 		delay=${ROOTDELAY:-180}
 
-		# loop until rammount succeeds
-		#do_net_conf
+		# Disable IPv6 boot
+		export IP6=off
 		configure_networking
 
 		# Start debug shell inside initrd if initrddebug is set
@@ -191,14 +189,4 @@ mountroot()
 		fi
 
 		do_rammount || panic "initrd: rammount() failed"
-
-#        while [ ${retry_nr} -lt ${delay} ] && [ ! -e ${rootmnt}${init} ]; do
-#                log_begin_msg "Retrying rammount"
-#                /bin/sleep 5
-#				#do_net_conf
-#				configure_networking
-#                do_rammount
-#                retry_nr=$(( ${retry_nr} + 1 ))
-#                log_end_msg
-#        done
 }
