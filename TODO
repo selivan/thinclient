@@ -12,3 +12,4 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] change server IP from 192.168.10.1 - to prevent Vagrant warnings
 [x] console autologin https://wiki.archlinux.org/index.php/Getty#Automatic_login_to_virtual_console
 [ ] User overlayfs instead of AUFS
+[ ] Display message for N sec and reboot from initrd if something goes wrong
