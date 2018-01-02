@@ -1,12 +1,13 @@
 - name: intall gui packages
   apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
-  - xserver-xorg-hwe-16.04
-  - xinit
+  - xserver-xorg-core-hwe-16.04
+  - xserver-xorg-input-all-hwe-16.04
   - xserver-xorg-video-fbdev-hwe-16.04
   - xserver-xorg-video-vesa-hwe-16.04
   - xserver-xorg-video-intel-hwe-16.04
   - xserver-xorg-video-vmware-hwe-16.04
+  - xinit
   - lxde-core
   - lxde-common
   - lxde-icon-theme
