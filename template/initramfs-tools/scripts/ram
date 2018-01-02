@@ -1,6 +1,4 @@
 #!/bin/sh -x
-retry_nr=0
-#set -x
 
 get_url()
 {
@@ -95,40 +93,42 @@ do_rammount()
 	echo "Creating tmpfs rw filesystem for /var/log"
 	mount -t tmpfs none "${rootmnt}"/var/log
 
+	echo "Creating tmpfs rw filesystem for /var/lib/dhcp"
+	mount -t tmpfs none "${rootmnt}"/var/lib/dhcp
+
 	echo "STRANGE MAGIC FINISHED"
 
 	# Home needs some magic 'cause it can be mounted through NFS
-	if [ "${homeproto}" = "nfs" ]; then
-		echo 'MOUNTING HOME WITH NFS'
-		echo "homeurl=${homeurl} ROOTPATH=${ROOTPATH} BOOTIF=${BOOTIF}"
-		#echo "Press Enter to continue"
-		#read enter
-		set -x
-		[ -z "${homeurl}" ] && [ "${ROOTPATH}" ] && homeurl=`dirname "${ROOTPATH}"`"/home/${BOOTIF}"
-		[ -z "${homeurl}" ] && homeurl=`dirname "${filename}"`"/home/${BOOTIF}"
-		[ -z `echo "${homeurl}" | grep ':'` ] && homeurl="${ROOTSERVER}:${homeurl}"
-		log_begin_msg "Mounting NFS home ${homeurl}"
-		nfsmount -o "nolock,rw,retrans=10" "${homeurl}" "${rootmnt}/ubuntu" || return $?
-		#echo "Press Enter to continue"
-		#read enter
-		set +x
-		log_end_msg
-	else
-		log_begin_msg "Downloading home image ${homeproto} ${homeurl}"
-		get_url "${homeproto}" "${homeurl}" "/tmp/home.tar.gz" || return $?
-		log_end_msg
+	# if [ "${homeproto}" = "nfs" ]; then
+	# 	echo 'MOUNTING HOME WITH NFS'
+	# 	echo "homeurl=${homeurl} ROOTPATH=${ROOTPATH} BOOTIF=${BOOTIF}"
+	# 	#echo "Press Enter to continue"
+	# 	#read enter
+	# 	set -x
+	# 	[ -z "${homeurl}" ] && [ "${ROOTPATH}" ] && homeurl=`dirname "${ROOTPATH}"`"/home/${BOOTIF}"
+	# 	[ -z "${homeurl}" ] && homeurl=`dirname "${filename}"`"/home/${BOOTIF}"
+	# 	[ -z `echo "${homeurl}" | grep ':'` ] && homeurl="${ROOTSERVER}:${homeurl}"
+	# 	log_begin_msg "Mounting NFS home ${homeurl}"
+	# 	nfsmount -o "nolock,rw,retrans=10" "${homeurl}" "${rootmnt}/ubuntu" || return $?
+	# 	#echo "Press Enter to continue"
+	# 	#read enter
+	# 	set +x
+	# 	log_end_msg
+	# else
+	log_begin_msg "Downloading home image ${homeproto} ${homeurl}"
+	get_url "${homeproto}" "${homeurl}" "/tmp/home.tar.gz" || return $?
+	log_end_msg
 
-		log_begin_msg "Mounting tmpfs to ${rootmnt}/home/ubuntu"
-		mount -t tmpfs -o size=${homesize:-512M} none ${rootmnt}/home/ubuntu || return $?
-		log_end_msg
+	log_begin_msg "Mounting tmpfs to ${rootmnt}/home/ubuntu"
+	mount -t tmpfs -o size=${homesize:-512M} none ${rootmnt}/home/ubuntu || return $?
+	log_end_msg
 
-		log_begin_msg "Extracting home"
-		gunzip -c '/tmp/home.tar.gz' | tar -x -C ${rootmnt}/home/ubuntu -f- || return $?
+	log_begin_msg "Extracting home"
+	gunzip -c '/tmp/home.tar.gz' | tar -x -C ${rootmnt}/home/ubuntu -f- || return $?
 
-		echo "Removing home.tar.gz"
-		rm -f '/tmp/home.tar.gz'
-		log_end_msg
-	fi
+	echo "Removing home.tar.gz"
+	rm -f '/tmp/home.tar.gz'
+	log_end_msg
 
 	echo "do_rammount: OK"
 	sleep 1
@@ -177,13 +177,11 @@ mountroot()
 		# For DHCP
 		modprobe af_packet
 
-		wait_for_udev 10
-
 		# Default delay is around 180s
 		delay=${ROOTDELAY:-180}
 
-		# loop until rammount succeeds
-		#do_net_conf
+		# Disable IPv6 boot
+		export IP6=off
 		configure_networking
 
 		# Start debug shell inside initrd if initrddebug is set
@@ -193,14 +191,4 @@ mountroot()
 		fi
 
 		do_rammount || panic "initrd: rammount() failed"
-
-#        while [ ${retry_nr} -lt ${delay} ] && [ ! -e ${rootmnt}${init} ]; do
-#                log_begin_msg "Retrying rammount"
-#                /bin/sleep 5
-#				#do_net_conf
-#				configure_networking
-#                do_rammount
-#                retry_nr=$(( ${retry_nr} + 1 ))
-#                log_end_msg
-#        done
 }

@@ -4,10 +4,27 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] install X, rdp client, auto script to parse kernel boot params for RDP servers. Use parameter in vars.yml, default: yes. User should disable it to build minimal image without gui.
 [ ] scripts - use new paths and vars.sh
 [x] simplify overlays - no overlay build scripts
-[ ] auto remove old linux kernel packages
+[x] auto remove old linux kernel packages
 [x] test overlays and document it
 [x] initrd - switch to bzip
-[x] server - make dnsmasq service wlawys restart on fail (fails because cat't see shared directory).
-[ ] network interfaces - start dhcp for all interfaces in new machine
+[x] server - make dnsmasq service always restart on fail (fails because cat't see shared directory).
+[x] network interfaces - start dhcp for all interfaces in new machine
+[ ] network - update resolv.conf from dhcp
 [x] change server IP from 192.168.10.1 - to prevent Vagrant warnings
 [x] console autologin https://wiki.archlinux.org/index.php/Getty#Automatic_login_to_virtual_console
+[ ] Use overlayfs instead of AUFS
+[ ] Display message for N sec and reboot from initrd if something goes wrong
+[x] Playbook structure: provision.yml -> provision_server.yml, provision_client.yml, provision_client_gui.yml
+
+Probable alternative:
+Single build/server machine, chroot, mksquashfs --ex ...,
+Single test machine
+Problems with running X inside chroot. Probable solutions:
+* https://wiki.archlinux.org/index.php/Change_root#Run_graphical_applications_from_chroot
+* https://superuser.com/questions/688766/how-to-start-xorg-server-inside-plain-chroot#791643
+* https://kb8ojh.net/elb/musings/tag/xpra
+* https://wiki.gentoo.org/wiki/Project:X86/Chroot_Guide#Running_X_apps_inside_the_chroot
+* https://xpra.org/trac/wiki/Usage
+* http://0pointer.de/blog/projects/changing-roots
+
+Or just start X in main system and pass session with $DISPLAY and .Xauthoority and .xinitrc(is it possible?)

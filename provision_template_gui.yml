@@ -1,5 +1,5 @@
 - name: intall gui packages
-  apt: pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
   - xserver-xorg-hwe-16.04
   - xinit
@@ -12,6 +12,9 @@
   - lxde-icon-theme
   - lxsession
   - lxterminal
+- name: remove dependencies that are no longer required
+  apt:
+    autoremove: yes
 - name: install additional gui packages
   apt: pkg={{ item }} state=latest
   with_items:
@@ -23,15 +26,27 @@
   apt: update_cache=yes
   when: apt_repo_remmina|changed
 - name: install freerdp
-  apt: pkg={{ item }} state=latest
+  apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
   - freerdp-x11
+  - name: remove unnecessary gui packages
+    apt: pkg={{ item }} state=absent purge=yes
+    with_items:
+      - gnome-screenshot
+      - xscreensaver
+      - xscreensaver-data
+      - lxtask
+      - x11-xserver-utils
+      - cpp
+      - cpp-5
 - name: user bash_profile to autostart X session on first console
   template: src=template/home/bash_profile dest=/home/ubuntu/.bash_profile owner=ubuntu mode=0640
 - name: user config directories
-  file: path={{ item }} state=directory recurse=yes
+  file: path={{ item }} state=directory owner=ubuntu
   with_items:
+    - /home/ubuntu/.config
     - /home/ubuntu/.config/autostart
+    - /home/ubuntu/.local
     - /home/ubuntu/.local/bin
 - name: script to create RDP shortcuts
   template: src=template/home/local/bin/create-rdp-shortcuts.sh dest=/home/ubuntu/.local/bin/create-rdp-shortcuts.sh owner=ubuntu mode=0755
