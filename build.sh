@@ -62,6 +62,7 @@ build-home() {
     # Don't use default unsecure ssh keys
     tar --exclude="./.ssh" -czf /vagrant/build/home.tar.gz ./ \
     && rm -f /vagrant/build/home.tar.gz.bak
+    chmod a+r /vagrant/build/home.tar.gz
     cd -
 }
 
