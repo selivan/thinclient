@@ -84,4 +84,4 @@ Parameters in `pxelinux.cfg`:
 overlayproto=http overlays=overlay1.tar.gz;overlay2.tar.gz
 ```
 
-This will download `http://<pxe server ip>/overlay1.tar.gz` and `http://<pxe server ip>/overlay2.tar.gz` and will mount them over root filesystem.
+This will download `http://<pxe server ip>/overlay1.tar.gz` and `http://<pxe server ip>/overlay2.tar.gz` and mount them over root filesystem.
