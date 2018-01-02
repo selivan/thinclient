@@ -3,8 +3,6 @@ install_gui_and_rdp_client: yes
 # For example: xserver-xorg-video-nouveau-hwe-16.04 for NVidia videocards
 additional_gui_packages: []
 
-builddir: /vagrant/build
-
 dhcp_start_addr: "192.168.10.129"
 dhcp_end_addr: "192.168.10.250"
 dhcp_netmask: "255.255.255.0"
