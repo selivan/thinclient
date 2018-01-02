@@ -28,11 +28,13 @@ copy_exec /bin/bunzip2 /bin
 
 # ??
 manual_add_modules squashfs
+# AUFS
 manual_add_modules aufs
+# Overlayfs
+manual_add_modules overlay
 #manual_add_modules cedarview_gfx
 manual_add_modules nfs
 manual_add_modules nfsd
 manual_add_modules uvesafb
 
 exit 0
-
