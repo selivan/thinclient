@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
       # Memory and CPU - to work faster with squashfs
       machine.vm.provider "virtualbox" do |vb|
         # This is template machine, we need to see the interface
-        vb.gui = true
+        #vb.gui = true
         vb.memory = "2048"
         vb.cpus = 2
       end
