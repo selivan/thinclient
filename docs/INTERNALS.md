@@ -22,6 +22,8 @@ initrd has custom booot script `ram` and hook to incude necessary binaries and m
 
 Overlays(optional) are mounted using AUFS. `/AUFS` helper directory is used to make it work.
 
+Apparmor is removed, because it's profiles are not compatible with root FS mounted indirectly.
+
 ## Debug
 To look what's happening, helper scripts `extract-initrd.sh` and `extract-rootfs.sh` may be usen to extract generate initrd and rootfs to `unpacked-initrd` and `unpacked-rootfs` directories.
 
