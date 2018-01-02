@@ -17,6 +17,8 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] Specify packages to exclude all their files from image. Like virtualbox-guest-utils, grub*, openssh-server and so on.
 [x] Graphic drivers - choose in vars.yml
 [ ] systemd-timesyncd - fix problems
+[ ] Boot from USB drive - syslinux, script.
+[ ] uvesafb - v86d
 
 Probable alternative:
 Single build/server machine, chroot, mksquashfs --ex ...,
