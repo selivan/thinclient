@@ -42,16 +42,19 @@ build-rootfs() {
     generate-rootfs-excludes /tmp/rootfs.exclude_dirs
     # Change interfaces file to symlink
     # To exclude Vagrant static interfaces
-    echo "Backup /etc/network/interfaces"
+    echo "Backup /etc/network/interfaces and /etc/fstab"
     mv /etc/network/interfaces /etc/network/interfaces.bak
+    mv /etc/fstab /etc/fstab.bak
     ln -sf /tmp/interfaces /etc/network/interfaces
+    : > /etc/fstab
     mksquashfs . /vagrant/build/rootfs.squashfs -no-xattrs -noappend -always-use-fragments -comp xz -ef /tmp/rootfs.exclude_dirs \
     && rm -f "$buildddir"/rootfs.squashfs.bak
     chmod a+r "$buildddir"/rootfs.squashfs
     # Restore interfaces file
-    echo "Restore original /etc/network/interfaces"
+    echo "Restore original /etc/network/interfaces and /etc/fstab"
     rm -f /etc/network/interfaces
     mv /etc/network/interfaces.bak /etc/network/interfaces
+    mv /etc/fstab.bak /etc/fstab
     cd -
 }
 
