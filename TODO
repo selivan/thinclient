@@ -9,7 +9,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] initrd - switch to bzip
 [x] server - make dnsmasq service always restart on fail (fails because cat't see shared directory).
 [x] network interfaces - start dhcp for all interfaces in new machine
-[ ] network - update resolv.conf from dhcp
+[x] network - update resolv.conf from dhcp - it works, I forgot to mention dns server in dnsmasq config :)
 [x] change server IP from 192.168.10.1 - to prevent Vagrant warnings
 [x] console autologin https://wiki.archlinux.org/index.php/Getty#Automatic_login_to_virtual_console
 [ ] Use overlayfs instead of AUFS
