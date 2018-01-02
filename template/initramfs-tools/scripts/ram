@@ -96,6 +96,8 @@ do_rammount()
 	echo "Creating tmpfs rw filesystem for /var/lib/dhcp"
 	mount -t tmpfs none "${rootmnt}"/var/lib/dhcp
 
+	set +x
+
 	echo "STRANGE MAGIC FINISHED"
 
 	# Home needs some magic 'cause it can be mounted through NFS
