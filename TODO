@@ -16,6 +16,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] Playbook structure: provision.yml -> provision_server.yml, provision_client.yml, provision_client_gui.yml
 [x] Specify packages to exclude all their files from image. Like virtualbox-guest-utils, grub*, openssh-server and so on.
 [x] Graphic drivers - choose in vars.yml
+[ ] systemd-timesyncd - fix problems
 
 Probable alternative:
 Single build/server machine, chroot, mksquashfs --ex ...,
