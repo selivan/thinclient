@@ -15,24 +15,24 @@ esac
 
 . /usr/share/initramfs-tools/hook-functions
 
-copy_exec /bin/cpio /bin
 copy_exec /usr/bin/atftp /bin
-copy_exec /bin/dd /bin
-copy_exec /bin/tar /bin
 copy_exec /usr/bin/wget /bin
-copy_exec /bin/gunzip /bin
-copy_exec /bin/bunzip2 /bin
-#copy_exec /usr/bin/du /bin
+#copy_exec /bin/cpio /bin
+#copy_exec /bin/tar /bin
+#copy_exec /bin/gunzip /bin
+#copy_exec /bin/bunzip2 /bin
+# Required for uvesafb
 #copy_exec /sbin/v86d /sbin
-#copy_exec /usr/bin/lspci /bin
 
-# ??
 manual_add_modules squashfs
+# AUFS
 manual_add_modules aufs
+# Overlayfs
+manual_add_modules overlay
+# Fucking closed-source Intel(really it is PowerVR SGX) graphics with a lot of problems
 #manual_add_modules cedarview_gfx
-manual_add_modules nfs
-manual_add_modules nfsd
+#manual_add_modules nfs
+#manual_add_modules nfsd
 manual_add_modules uvesafb
 
 exit 0
-

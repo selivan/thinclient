@@ -25,7 +25,7 @@
 - name: remove unnecessary packages
   apt: name={{ item }} state=absent purge=yes
   with_items:
-    - "{{ unnecessary_packages }}"
+    - "{{ packages_to_remove }}"
 - name: remove dependencies that are no longer required
   apt:
     autoremove: yes
