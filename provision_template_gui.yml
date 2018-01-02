@@ -28,7 +28,7 @@
 - name: install freerdp
   apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
-  - freerdp-x11
+    - freerdp-x11
   - name: remove unnecessary gui packages
     apt: pkg={{ item }} state=absent purge=yes
     with_items:
