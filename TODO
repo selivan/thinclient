@@ -15,6 +15,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] Display message for N sec and reboot from initrd if something goes wrong
 [x] Playbook structure: provision.yml -> provision_server.yml, provision_client.yml, provision_client_gui.yml
 [ ] Specify packages to exclude all their files from image. Like virtualbox-guest-utils, grub*, openssh-server and so on.
+[ ] Graphic drivers - choose in vars.yml
 
 Probable alternative:
 Single build/server machine, chroot, mksquashfs --ex ...,

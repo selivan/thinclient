@@ -3,10 +3,9 @@
   with_items:
   - xserver-xorg-core-hwe-16.04
   - xserver-xorg-input-all-hwe-16.04
+  # Basic universal video drivers
   - xserver-xorg-video-fbdev-hwe-16.04
   - xserver-xorg-video-vesa-hwe-16.04
-  - xserver-xorg-video-intel-hwe-16.04
-  - xserver-xorg-video-vmware-hwe-16.04
   - xinit
   - lxde-core
   - lxde-common
@@ -14,6 +13,7 @@
   - lxsession
   - lxrandr
   - lxterminal
+  - "{{ xorg_video_drivers }}"
 - name: remove dependencies that are no longer required
   apt:
     autoremove: yes
