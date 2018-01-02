@@ -194,8 +194,11 @@ mountroot()
 		if [ $? -ne 0 ]; then
 			# enable reboot on panic
 			echo 1 > /proc/sys/kernel/panic
+			# enable sysrq
+			echo 1 > /proc/sys/kernel/sysrq
 			echo "Something went wrong, rebooting in 15 seconds"
 			sleep 15
-			panic "initrd: rammount() failed"
+			# trigger kernel panic
+			echo c > /proc/sysrq-trigger
 		fi
 }
