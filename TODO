@@ -20,11 +20,18 @@ Probable alternative:
 Single build/server machine, chroot, mksquashfs --ex ...,
 Single test machine
 Problems with running X inside chroot. Probable solutions:
-* https://wiki.archlinux.org/index.php/Change_root#Run_graphical_applications_from_chroot
-* https://superuser.com/questions/688766/how-to-start-xorg-server-inside-plain-chroot#791643
-* https://kb8ojh.net/elb/musings/tag/xpra
-* https://wiki.gentoo.org/wiki/Project:X86/Chroot_Guide#Running_X_apps_inside_the_chroot
-* https://xpra.org/trac/wiki/Usage
-* http://0pointer.de/blog/projects/changing-roots
+https://wiki.archlinux.org/index.php/Change_root#Run_graphical_applications_from_chroot
+https://superuser.com/questions/688766/how-to-start-xorg-server-inside-plain-chroot#791643
+https://kb8ojh.net/elb/musings/tag/xpra
+https://wiki.gentoo.org/wiki/Project:X86/Chroot_Guide#Running_X_apps_inside_the_chroot
+https://xpra.org/trac/wiki/Usage
+http://0pointer.de/blog/projects/changing-roots
+https://docstore.mik.ua/orelly/networking_2ndEd/ssh/ch09_03.htm
 
 Or just start X in main system and pass session with $DISPLAY and .Xauthoority and .xinitrc(is it possible?)
+
+Or start X an main system and use Xephyr and forward it to chroot
+https://askubuntu.com/a/824513/25924
+https://wiki.mageia.org/en/Chroot#Using_Xephyr
+
+Or use VNC (x11vnc)?

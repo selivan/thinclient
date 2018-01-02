@@ -1,4 +1,4 @@
-Previous versions used chroot. To simplify things for end user, I swithed to Vagrant. You just configure normal virtual machine and run script to generate images.
+Previous versions used chroot. To simplify things for end user, I swithed to Vagrant. You just configure normal virtual machine and run script to generate images. Also, this approach is closer to how system runs on real hardware.
 
 ## Provision
 
