@@ -69,9 +69,10 @@ build-home() {
 buildddir=/vagrant/build
 
 # should run thos script as root
-if [ $(id -n) -ne 0 ]; then
+if [ $(id -u) -ne 0 ]; then
     echo "Should run this scritp as root, trying sudo ..."
     sudo $0 "$@"
+    exit $?
 fi
 
 case "$1" in
