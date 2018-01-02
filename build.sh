@@ -4,7 +4,7 @@ build-kernel() {
     set -x
     vmlinuz_path=$(readlink -f /vmlinuz)
     vmlinuz_filename=$(basename $vmlinuz_path)
-    cp "$vmlinuz_path" /vagrant/build
+    cp "$vmlinuz_path" "$buildddir"
     cd /vagrant/build
     chmod a+r "$vmlinuz_filename"
     ln -sf "$vmlinuz_filename" vmlinuz
@@ -16,8 +16,8 @@ build-initrd() {
     #update-initramfs -u
     initrd_path=$(readlink -f /initrd.img)
     initrd_filename=$(basename $initrd_path)
-    cp "$initrd_path" /vagrant/build
-    cd /vagrant/build/
+    cp "$initrd_path" "$buildddir"
+    cd "$buildddir"
     chmod a+r "$initrd_filename"
     ln -sf "$initrd_filename" initrd.img
     cd -
@@ -37,36 +37,46 @@ generate-rootfs-excludes() {
 
 build-rootfs() {
     set -x
-    mv /vagrant/build/rootfs.squashfs /vagrant/build/rootfs.squashfs.bak
+    mv "$buildddir"/rootfs.squashfs "$buildddir"/rootfs.squashfs.bak
     cd /
     generate-rootfs-excludes /tmp/rootfs.exclude_dirs
     # Change interfaces file to symlink
     # To exclude Vagrant static interfaces
-    echo "Backup /etc/network/interfaces"
+    echo "Backup /etc/network/interfaces and /etc/fstab"
     mv /etc/network/interfaces /etc/network/interfaces.bak
+    mv /etc/fstab /etc/fstab.bak
     ln -sf /tmp/interfaces /etc/network/interfaces
+    : > /etc/fstab
     mksquashfs . /vagrant/build/rootfs.squashfs -no-xattrs -noappend -always-use-fragments -comp xz -ef /tmp/rootfs.exclude_dirs \
-    && rm -f /vagrant/build/rootfs.squashfs.bak
-    chmod a+r /vagrant/build/rootfs.squashfs
+    && rm -f "$buildddir"/rootfs.squashfs.bak
+    chmod a+r "$buildddir"/rootfs.squashfs
     # Restore interfaces file
-    echo "Restore original /etc/network/interfaces"
+    echo "Restore original /etc/network/interfaces and /etc/fstab"
     rm -f /etc/network/interfaces
     mv /etc/network/interfaces.bak /etc/network/interfaces
+    mv /etc/fstab.bak /etc/fstab
     cd -
 }
 
 build-home() {
     set -x
-    mv /vagrant/build/home.tar.gz /vagrant/build/home.tar.gz.bak
+    mv "$buildddir"/home.tar.gz "$buildddir"/home.tar.gz.bak
     cd /home/ubuntu
     # Don't use default unsecure ssh keys
     tar --exclude="./.ssh" -czf /vagrant/build/home.tar.gz ./ \
-    && rm -f /vagrant/build/home.tar.gz.bak
-    chmod a+r /vagrant/build/home.tar.gz
+    && rm -f "$buildddir"/home.tar.gz.bak
+    chmod a+r "$buildddir"/home.tar.gz
     cd -
 }
 
-source $(dirname "$0")/vars.sh
+buildddir=/vagrant/build
+
+# should run thos script as root
+if [ $(id -u) -ne 0 ]; then
+    echo "Should run this scritp as root, trying sudo ..."
+    sudo $0 "$@"
+    exit $?
+fi
 
 case "$1" in
     all)

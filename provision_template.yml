@@ -16,6 +16,12 @@
 - name: update apt cache
   apt: update_cache=yes
   when: apt_sources_list|changed
+- name: disable apt periodic update
+  template: src=template/{{ item }} dest=/etc/{{ item }}
+  with_items: [ apt/apt.conf.d/10periodic ]
+# Apparmor profiles do not work with custom mounting scheme for rootfs
+- name: remove apparmor
+  apt: name=apparmor state=absent purge=yes
 - name: remove unnecessary packages
   apt: name={{ item }} state=absent purge=yes
   with_items:

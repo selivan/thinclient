@@ -6,7 +6,7 @@ build
 # ansible artifacts
 *.retry
 # generated variables file for scripts
-vars.sh
+#vars.sh
 # unpacked initrd and rootfs - for debug
 unpacked-initrd
 unpacked-rootfs

@@ -1,5 +1,3 @@
-- name: generate variables for shell scripts
-  local_action: template src=vars.sh.j2 dest=/vagrant/vars.sh
 - name: install apt sources.list
   template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
   register: apt_sources_list

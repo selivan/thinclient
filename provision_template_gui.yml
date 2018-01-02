@@ -1,16 +1,18 @@
 - name: intall gui packages
   apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
-  - xserver-xorg-hwe-16.04
-  - xinit
+  - xserver-xorg-core-hwe-16.04
+  - xserver-xorg-input-all-hwe-16.04
   - xserver-xorg-video-fbdev-hwe-16.04
   - xserver-xorg-video-vesa-hwe-16.04
   - xserver-xorg-video-intel-hwe-16.04
   - xserver-xorg-video-vmware-hwe-16.04
+  - xinit
   - lxde-core
   - lxde-common
   - lxde-icon-theme
   - lxsession
+  - lxrandr
   - lxterminal
 - name: remove dependencies that are no longer required
   apt:
@@ -28,17 +30,17 @@
 - name: install freerdp
   apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
-  - freerdp-x11
-  - name: remove unnecessary gui packages
-    apt: pkg={{ item }} state=absent purge=yes
-    with_items:
-      - gnome-screenshot
-      - xscreensaver
-      - xscreensaver-data
-      - lxtask
-      - x11-xserver-utils
-      - cpp
-      - cpp-5
+    - freerdp-x11
+# - name: remove unnecessary gui packages
+#   apt: pkg={{ item }} state=absent purge=yes
+#   with_items:
+#     - gnome-screenshot
+#     - xscreensaver
+#     - xscreensaver-data
+#     - lxtask
+#     - x11-xserver-utils
+#     - cpp
+#     - cpp-5
 - name: user bash_profile to autostart X session on first console
   template: src=template/home/bash_profile dest=/home/ubuntu/.bash_profile owner=ubuntu mode=0640
 - name: user config directories

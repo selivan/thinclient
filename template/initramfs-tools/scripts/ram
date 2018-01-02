@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 get_url()
 {
@@ -93,8 +93,17 @@ do_rammount()
 	echo "Creating tmpfs rw filesystem for /var/log"
 	mount -t tmpfs none "${rootmnt}"/var/log
 
-	echo "Creating tmpfs rw filesystem for /var/lib/dhcp"
-	mount -t tmpfs none "${rootmnt}"/var/lib/dhcp
+	if [ -d "${rootmnt}"/var/lib/dhcp ]; then
+		echo "Creating tmpfs rw filesystem for /var/lib/dhcp"
+		mount -t tmpfs none "${rootmnt}"/var/lib/dhcp
+	fi
+
+	if [ -d "${rootmnt}"/etc/apparmor.d/cache ]; then
+		echo "Creating tmpfs rw filesystem for /etc/apparmor.d/cache"
+		mount -t tmpfs none "${rootmnt}"/etc/apparmor.d/cache
+	fi
+
+	set +x
 
 	echo "STRANGE MAGIC FINISHED"
 
@@ -190,5 +199,15 @@ mountroot()
 			sh
 		fi
 
-		do_rammount || panic "initrd: rammount() failed"
+		do_rammount
+		if [ $? -ne 0 ]; then
+			# enable reboot on panic
+			echo 1 > /proc/sys/kernel/panic
+			# enable sysrq
+			echo 1 > /proc/sys/kernel/sysrq
+			echo "Something went wrong, rebooting in 15 seconds"
+			sleep 15
+			# trigger kernel panic
+			echo c > /proc/sysrq-trigger
+		fi
 }

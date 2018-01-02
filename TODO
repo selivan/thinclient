@@ -2,19 +2,19 @@
 https://www.vagrantup.com/docs/networking/public_network.html
 https://www.vagrantup.com/docs/networking/private_network.html
 [x] install X, rdp client, auto script to parse kernel boot params for RDP servers. Use parameter in vars.yml, default: yes. User should disable it to build minimal image without gui.
-[ ] scripts - use new paths and vars.sh
 [x] simplify overlays - no overlay build scripts
 [x] auto remove old linux kernel packages
 [x] test overlays and document it
 [x] initrd - switch to bzip
 [x] server - make dnsmasq service always restart on fail (fails because cat't see shared directory).
 [x] network interfaces - start dhcp for all interfaces in new machine
-[ ] network - update resolv.conf from dhcp
+[x] network - update resolv.conf from dhcp - it works, I forgot to mention dns server in dnsmasq config :)
 [x] change server IP from 192.168.10.1 - to prevent Vagrant warnings
 [x] console autologin https://wiki.archlinux.org/index.php/Getty#Automatic_login_to_virtual_console
 [ ] Use overlayfs instead of AUFS
-[ ] Display message for N sec and reboot from initrd if something goes wrong
+[x] Display message for N sec and reboot from initrd if something goes wrong
 [x] Playbook structure: provision.yml -> provision_server.yml, provision_client.yml, provision_client_gui.yml
+[ ] Specify packages to exclude all their files from image. Like virtualbox-guest-utils, grub*, openssh-server and so on.
 
 Probable alternative:
 Single build/server machine, chroot, mksquashfs --ex ...,
