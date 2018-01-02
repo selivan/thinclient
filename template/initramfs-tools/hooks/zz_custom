@@ -33,8 +33,8 @@ manual_add_modules aufs
 manual_add_modules overlay
 # Fucking closed-source Intel(really it is PowerVR SGX) graphics with a lot of problems
 #manual_add_modules cedarview_gfx
-manual_add_modules nfs
-manual_add_modules nfsd
+#manual_add_modules nfs
+#manual_add_modules nfsd
 manual_add_modules uvesafb
 
 exit 0
