@@ -17,9 +17,9 @@ esac
 
 copy_exec /usr/bin/atftp /bin
 copy_exec /usr/bin/wget /bin
+copy_exec /bin/tar /bin
+copy_exec /bin/gunzip /bin
 #copy_exec /bin/cpio /bin
-#copy_exec /bin/tar /bin
-#copy_exec /bin/gunzip /bin
 #copy_exec /bin/bunzip2 /bin
 # Required for uvesafb
 #copy_exec /sbin/v86d /sbin
