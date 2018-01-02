@@ -32,6 +32,7 @@ manual_add_modules squashfs
 manual_add_modules aufs
 # Overlayfs
 manual_add_modules overlay
+# Fucking closed-source Intel GMA graphics
 #manual_add_modules cedarview_gfx
 manual_add_modules nfs
 manual_add_modules nfsd
