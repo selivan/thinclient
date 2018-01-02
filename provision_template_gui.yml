@@ -11,6 +11,7 @@
   - lxde-common
   - lxde-icon-theme
   - lxsession
+  - lxrandr
   - lxterminal
 - name: remove dependencies that are no longer required
   apt:
