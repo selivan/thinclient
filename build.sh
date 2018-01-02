@@ -18,6 +18,7 @@ build-initrd() {
     initrd_filename=$(basename $initrd_path)
     cp "$initrd_path" /vagrant/build
     cd /vagrant/build/
+    chmod a+r "$initrd_filename"
     ln -sf "$initrd_filename" initrd.img
     cd -
 }
@@ -46,6 +47,7 @@ build-rootfs() {
     ln -sf /tmp/interfaces /etc/network/interfaces
     mksquashfs . /vagrant/build/rootfs.squashfs -no-xattrs -noappend -always-use-fragments -comp xz -ef /tmp/rootfs.exclude_dirs \
     && rm -f /vagrant/build/rootfs.squashfs.bak
+    chmod a+r /vagrant/build/rootfs.squashfs
     # Restore interfaces file
     echo "Restore original /etc/network/interfaces"
     rm -f /etc/network/interfaces
