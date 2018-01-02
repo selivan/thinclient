@@ -26,7 +26,6 @@ copy_exec /bin/bunzip2 /bin
 #copy_exec /sbin/v86d /sbin
 #copy_exec /usr/bin/lspci /bin
 
-# ??
 manual_add_modules squashfs
 # AUFS
 manual_add_modules aufs
