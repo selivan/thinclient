@@ -2,7 +2,6 @@
 https://www.vagrantup.com/docs/networking/public_network.html
 https://www.vagrantup.com/docs/networking/private_network.html
 [x] install X, rdp client, auto script to parse kernel boot params for RDP servers. Use parameter in vars.yml, default: yes. User should disable it to build minimal image without gui.
-[ ] scripts - use new paths and vars.sh
 [x] simplify overlays - no overlay build scripts
 [x] auto remove old linux kernel packages
 [x] test overlays and document it
