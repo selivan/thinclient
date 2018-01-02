@@ -30,6 +30,14 @@ generate-rootfs-excludes() {
     for d in /boot /dev /proc /sys /tmp /run /mnt /home/ubuntu /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /usr/src /var/lib/dhcp/; do
         find $d -mindepth 1 -maxdepth 1 >> "$1"
     done
+    # Exclude all files from this packages
+    for pkg in virtualbox-guest-utils grub-common grub-gfxpayload-lists grub-pc grub-pc-bin grub2-common; do
+        dpkg -L $pkg | while read file; do
+            if [ -f "$file" ]; then
+                echo "$file" >> "$1"
+            fi
+        done
+    done
     echo /vagrant >> "$1"
     echo initrd.img >> "$1"
     echo vmlinuz >> "$1"

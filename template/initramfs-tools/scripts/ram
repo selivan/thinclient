@@ -34,77 +34,67 @@ do_rammount()
 
 	set -x
 
-	echo "Mounting rootfs image to temp directory"
-	mkdir -p /tmp/AUFS/rootfs
-	mount -t squashfs -o loop '/tmp/rootfs.squashfs' /tmp/AUFS/rootfs || return $?
+	if [ -z "$overlays" ]; then
 
-	echo "Mounting real root with aufs"
-	mount -t aufs -o ro,br=/tmp/AUFS/rootfs=ro none "${rootmnt}"
+		echo "Mounting rootfs"
+		mount -t squashfs -o loop '/tmp/rootfs.squashfs' "${rootmnt}" || return $?
 
-	echo "Creating tmpfs for moved mountpoints"
-	mount -t tmpfs none "${rootmnt}"/AUFS
+	else
 
-	echo "Moving rootfs mountpoint to directory in real root"
-	mkdir "${rootmnt}"/AUFS/rootfs
-	mount --move /tmp/AUFS/rootfs "${rootmnt}"/AUFS/rootfs
+		echo "Mounting rootfs image to temp directory"
+		mkdir -p /tmp/AUFS/rootfs
+		mount -t squashfs -o loop '/tmp/rootfs.squashfs' /tmp/AUFS/rootfs || return $?
 
-	if [ -n "$overlays" ]; then
-	echo "Processing overlays"
-	for i in $overlays; do
+		# All lowerdirs for overlayfs
+		lowerdirs=/tmp/AUFS/rootfs
+		# All mountpoints that shoould be later moved inside real root
+		mountpoints=rootfs
 
-		echo "Preparing"
-		# XXXXXX is replaced with random digits and letters
-		dir=$( mktemp -d -p /tmp ovl_XXXXXX )
-		file=$( mktemp -p /tmp )
-		filename=${file#/tmp/}
-		dir_move="${rootmnt}"/AUFS/$filename
-		mkdir $dir_move
+		echo "Processing overlays"
+		for i in $overlays; do
 
-		echo "Downloading overlay $i"
-		get_url "$overlayproto" "$i" $file || return $?
+			echo "Preparing"
+			# XXXXXX is replaced with random digits and letters
+			dir=$( mktemp -d -p /tmp/AUFS/ ovl_XXXXXX )
+			dirname=${dir#/tmp/AUFS/}
+			file=$( mktemp -p /tmp )
 
-		echo "Extracting overlay $i to tmpfs"
-		mount -t tmpfs none $dir
-		gunzip -c $file | tar -x -C $dir -f- || return $?
-		rm $file
+			echo "Downloading overlay $i"
+			get_url "$overlayproto" "$i" $file || return $?
 
-		echo "Adding overlay $i to root filesystem"
-		mount -o remount,prepend:$dir=ro "${rootmnt}"
+			echo "Extracting overlay $i to tmpfs"
+			mount -t tmpfs none $dir
+			gunzip -c $file | tar -x -C $dir -f- || return $?
+			rm $file
 
-		echo "Moving overlay $i mount point to directory in real root"
-		mount --move $dir $dir_move
+			lowerdirs="${dir}:${lowerdirs}"
+			mountpoints="$mountpoints ${dirname}"
+
+		done
+
+		echo "Mounting real root with overlayfs"
+		mount -t overlay -o ro,lowerdir="$lowerdirs" none "${rootmnt}" || return $?
+
+		echo "Creating tmpfs for moved mountpoints"
+		mount -t tmpfs none "${rootmnt}"/AUFS || return $?
+
+		echo "Moving mountpoints to directory in real root"
+		for i in $mountpoints; do
+			mkdir "${rootmnt}"/AUFS/"$i"
+			mount --move /tmp/AUFS/"$i" "${rootmnt}"/AUFS/"$i" || return $?
+		done
+
+	fi
+
+	# This parts in rootfs should be writable
+	for dir in /tmp /run /var/log /media /var/lib/dhcp /etc/apparmor.d/cache; do
+		if [ -d "${rootmnt}${dir}" ]; then
+			echo "Creating tmpfs rw filesystem for $dir"
+			mount -t tmpfs none "${rootmnt}${dir}"
+		fi
 	done
-	fi
-
-	#echo "Creating tmpfs rw filesystem for dynamic ld.so.cache"
-	#cp "${rootmnt}"/etc/ld.so/ld.so.cache /tmp
-	#mount -t tmpfs none "${rootmnt}"/etc/ld.so
-	#mv /tmp/ld.so.cache "${rootmnt}"/etc/ld.so
-
-	echo "Creating tmpfs rw filesystem for /tmp"
-	mount -t tmpfs none "${rootmnt}"/tmp
-
-	echo "Creating tmpfs rw filesystem for /run"
-	mount -t tmpfs none "${rootmnt}"/run
-
-	echo "Creating tmpfs rw filesystem for /media"
-	mount -t tmpfs none "${rootmnt}"/media
-
-	echo "Creating tmpfs rw filesystem for /var/log"
-	mount -t tmpfs none "${rootmnt}"/var/log
-
-	if [ -d "${rootmnt}"/var/lib/dhcp ]; then
-		echo "Creating tmpfs rw filesystem for /var/lib/dhcp"
-		mount -t tmpfs none "${rootmnt}"/var/lib/dhcp
-	fi
-
-	if [ -d "${rootmnt}"/etc/apparmor.d/cache ]; then
-		echo "Creating tmpfs rw filesystem for /etc/apparmor.d/cache"
-		mount -t tmpfs none "${rootmnt}"/etc/apparmor.d/cache
-	fi
 
 	set +x
-
 	echo "STRANGE MAGIC FINISHED"
 
 	# Home needs some magic 'cause it can be mounted through NFS
@@ -124,20 +114,15 @@ do_rammount()
 	# 	set +x
 	# 	log_end_msg
 	# else
-	log_begin_msg "Downloading home image ${homeproto} ${homeurl}"
+	echo "Downloading home image ${homeproto} ${homeurl}"
 	get_url "${homeproto}" "${homeurl}" "/tmp/home.tar.gz" || return $?
-	log_end_msg
 
-	log_begin_msg "Mounting tmpfs to ${rootmnt}/home/ubuntu"
+	echo "Mounting tmpfs to ${rootmnt}/home/ubuntu"
 	mount -t tmpfs -o size=${homesize:-512M} none ${rootmnt}/home/ubuntu || return $?
-	log_end_msg
 
-	log_begin_msg "Extracting home"
+	echo "Extracting home"
 	gunzip -c '/tmp/home.tar.gz' | tar -x -C ${rootmnt}/home/ubuntu -f- || return $?
-
-	echo "Removing home.tar.gz"
 	rm -f '/tmp/home.tar.gz'
-	log_end_msg
 
 	echo "do_rammount: OK"
 	sleep 1
