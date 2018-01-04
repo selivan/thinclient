@@ -18,7 +18,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] Graphic drivers - choose in vars.yml
 [ ] systemd-timesyncd - fix problems
 [ ] Boot from USB drive - syslinux, script.
-[ ] uvesafb - v86d
+[ ] uvesafb: include v86d; documentation; userparameter for configuration
 [ ] documentation - DEPLOY.md - how-to's for dhcpd + tftpd, dnsmasq, nginx.
 [ ] documentation - check thinstation documentation for better English language
 
