@@ -19,6 +19,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] systemd-timesyncd - fix problems
 [ ] Boot from USB drive - syslinux, script.
 [ ] uvesafb - v86d
+[ ] documentation - DEPLOY.md - how-to's for dhcpd + tftpd, dnsmasq, nginx.
 
 Probable alternative:
 Single build/server machine, chroot, mksquashfs --ex ...,
