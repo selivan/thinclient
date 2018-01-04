@@ -1,15 +1,17 @@
-## THINCLIENT
+## Thinclient
+
 Tools to create Ubuntu GNU/Linux image, that boots via network and works from memory. Doesn't need to mount root fileystem via network, like [DisklessUbuntu](https://help.ubuntu.com/community/DisklessUbuntuHowto). Works much better in slow or unreliable networks: clients do not slow down or hang up because of network lags.
 
 Most common use case is creating custom thin clilent for RDP terminals.
 
 This project was originaly created by [efim-a-efim](https://github.com/efim-a-efim).
 
-## FEATURES
- * Easily add any software from rich Ubuntu repositories: browser, photo/video recorder for camera, skype, media player, etc. This is not so easy for other thin clients, using their own package base, like [ThinStation](http://www.thinstation.org/).
- * Overlays(file archives) can be mounted over root filesystem, allowing different thin stations to have different configs/software, without building many different images.
+## Features
 
-## DOCUMENTATION
+* Easily add any software from rich Ubuntu repositories: browser, photo/video recorder for camera, skype, media player, etc. This is not so easy for other thin clients, using their own package base, like [ThinStation](http://www.thinstation.org/).
+* Overlays(file archives) can be mounted over root filesystem, allowing different thin stations to have different configs/software, without building many different images.
+
+## Documentation
 
 * [USAGE](docs/USAGE.md)
 * [INTERNALS](docs/INTERNALS.md)

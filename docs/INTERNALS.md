@@ -25,6 +25,7 @@ Overlays(optional) are mounted using [Overlayfs](https://en.wikipedia.org/wiki/O
 Apparmor is removed, because it's profiles are not compatible with root FS mounted with Overlayfs.
 
 ## Debug
-To look what's happening, helper scripts `extract-initrd.sh` and `extract-rootfs.sh` may be usen to extract generate initrd and rootfs to `unpacked-initrd` and `unpacked-rootfs` directories.
+
+To look inside what you have built, helper scripts `extract-initrd.sh` and `extract-rootfs.sh` may be usen to extract generate initrd and rootfs to `unpacked-initrd` and `unpacked-rootfs` directories.
 
 To get inside initrd shell, you may use boot parameter `initrddebug=y`.

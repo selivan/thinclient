@@ -3,6 +3,7 @@ You need [git](https://git-scm.com/), [Virtualbox](https://www.virtualbox.org) a
 ## Prepare the workplace
 
 Clone this repository:
+
 ```
 git clone https://github.com/selivan/thinclient.git
 cd thinclient
@@ -25,6 +26,7 @@ Log into template machine.\
 Here you can customize your thin client image: install packages, configs, ...
 
 Do not:
+
 * Remove package virtualbox-guest-utils
 * Remove openssh-server
 * Change type and settings of first network interface
@@ -39,6 +41,7 @@ cd /vagrant
 ```
 
 You will get this artifacts in `/vagrant/build` directory:
+
 * `vmlinuz` - linux kernel
 * `initrd.img` - initial ram disk
 * `rootfs.squashfs` - root FS image
@@ -77,9 +80,11 @@ This will generate this two desktop shotucuts:
 Check [freerdp documentation](https://github.com/FreeRDP/FreeRDP/wiki/CommandLineInterface) and `xfreerdp --help` for possible parameters.
 
 ## Overlays
+
 It is possible to mount one or more file archives(*.tar.gz) over root filesystem. For example, you can add some software in `/opt` only for several workstations, without modifying the whole image.
 
 Parameters in `pxelinux.cfg`:
+
 ```
 overlayproto=http overlays=overlay1.tar.gz;overlay2.tar.gz
 ```
