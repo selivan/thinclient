@@ -90,3 +90,17 @@ overlayproto=http overlays=overlay1.tar.gz;overlay2.tar.gz
 ```
 
 This will download `http://<pxe server ip>/overlay1.tar.gz` and `http://<pxe server ip>/overlay2.tar.gz` and mount them over root filesystem.
+
+## Fallback mode for graphics
+
+If your graphic card does not work good with video drivers, you can use uvesafb framebuffer mode as fallback. You should set desired screen resolution and color depth manually in boot parameters.
+
+Parameters in `pxelinux.cfg`:
+
+```
+uvesafb=mode_option=1280x800-32;scroll=ywrap
+```
+
+Documentation on uvesafb:
+* [kernel uvesafb.txt](https://www.kernel.org/doc/Documentation/fb/uvesafb.txt)
+* [uvesafb in Arch wiki](https://wiki.archlinux.org/index.php/Uvesafb)

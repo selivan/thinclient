@@ -154,6 +154,10 @@ mountroot()
 						overlays=${x#overlays=}
 						export overlays=$( echo $overlays | tr ';' ' ' )
 						;;
+				uvesafb=*)
+						uvesafb=${x#uvesafb=}
+						export uvesafb=$( echo $uvesafb | tr ';' ' ' )
+						;;
 				overlayproto=*)
 						export overlayproto=${x#overlayproto=}
 						;;
@@ -169,13 +173,18 @@ mountroot()
 		echo "Loading module squashfs"
 		modprobe squashfs
 		# For DHCP
+		echo "Loading module af_packet"
 		modprobe af_packet
 
+		# Fallback mode for graphics
+		if [ -n "$uvesafb" ]; then
+			echo "Configuring graphics with usavefb: $uvesafb"
+			modprobe uvesafb $uvesafb
+		fi
+
+		# Networking
 		# Default delay is around 180s
 		delay=${ROOTDELAY:-180}
-
-		# Disable IPv6 boot
-		export IP6=off
 		configure_networking
 
 		# Start debug shell inside initrd if initrddebug is set

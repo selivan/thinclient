@@ -7,6 +7,9 @@ prompt 0
 # initrddebug=y
 # Mount overlays over rootfs
 # overlayproto=http overlays=overlay1.tar.gz,overlay2.tar.gz
+# Fallback mode for graphics and framebuffer
+# Documentation: https://www.kernel.org/doc/Documentation/fb/uvesafb.txt
+# uvesafb=mode_option=1280x800-32;scroll=ywrap
 label thinclient
     kernel vmlinuz
     append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp%server1:dc1.example.net:3389;rdp%server2:dc2.example.net:5555:/sec:rdp%/bpp:24

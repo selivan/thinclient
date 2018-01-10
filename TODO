@@ -20,9 +20,10 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] update-initramfs - use separate config for ram initrd, without disk drivers
 [x] systemd-timesyncd - fix problems
 [ ] Boot from USB drive - syslinux, script.
-[ ] uvesafb: include v86d; documentation; userparameter for configuration
+[x] uvesafb: include v86d; documentation; userparameter for configuration
 [x] documentation - DEPLOY.md - how-to's for dhcpd + tftpd, dnsmasq, nginx.
-[ ] documentation - check thinstation documentation for better English language
+[ ] documentation - check Thinstation documentation for better English language
+[ ] README - add youtube video how it works
 
 Probable alternative:
 Single build/server machine, chroot, mksquashfs --ex ...,
