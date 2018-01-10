@@ -21,7 +21,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] systemd-timesyncd - fix problems
 [ ] Boot from USB drive - syslinux, script.
 [ ] uvesafb: include v86d; documentation; userparameter for configuration
-[ ] documentation - DEPLOY.md - how-to's for dhcpd + tftpd, dnsmasq, nginx.
+[x] documentation - DEPLOY.md - how-to's for dhcpd + tftpd, dnsmasq, nginx.
 [ ] documentation - check thinstation documentation for better English language
 
 Probable alternative:
