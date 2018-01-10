@@ -1,5 +1,3 @@
-{:toc}
-
 Step-by-setp setup instructions for remote boot server(dhcp+tftp) based on Ubuntu 16.04 Xenial. Two options dnsmasq and dhcpd+tftpd. Change IP addresses for your network. Place into ${TFTP_DIR} generated images: `vmlinuz`, `initrd.img`, `rootfs.squashfs`, `home.tar.gz`.
 
 ## DNSMASQ
