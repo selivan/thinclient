@@ -166,12 +166,8 @@ mountroot()
 				esac
 		done
 
-		log_begin_msg "Loading module aufs"
-		modprobe aufs
-		log_end_msg
-		log_begin_msg "Loading module squashfs"
+		echo "Loading module squashfs"
 		modprobe squashfs
-		log_end_msg
 		# For DHCP
 		modprobe af_packet
 
