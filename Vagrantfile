@@ -45,14 +45,6 @@ Vagrant.configure("2") do |config|
         vb.cpus = 2
       end
 
-      # Ansible requires python v2 installed
-      machine.vm.provision "shell", inline: <<-SHELL
-        if [ ! -f /usr/bin/python ]; then
-          apt-get update
-          apt-get install -y python-minimal
-        fi
-      SHELL
-
   end
 
   # Machine to be used as PXC server and to configure others with ansible
@@ -65,7 +57,7 @@ Vagrant.configure("2") do |config|
         vb.cpus = 1
       end
 
-      # Ansible requires python v2 installed
+      # Ansible runs better with python2
       machine.vm.provision "shell", inline: <<-SHELL
         if [ ! -f /usr/bin/python ]; then
           apt-get update
