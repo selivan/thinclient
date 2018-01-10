@@ -13,8 +13,9 @@ This project was originaly created by [efim-a-efim](https://github.com/efim-a-ef
 
 ## Documentation
 
-* [USAGE](docs/USAGE.md)
-* [INTERNALS](docs/INTERNALS.md)
+* [Usage](docs/USAGE.md) - create and customize your own thinclient
+* [Deploy](docs/DEPLOY.md) - bring it to production servers
+* [Internals](docs/INTERNALS.md) - see how it ticks under the hood
 
 ## LICENSE: [GPL v3](LICENSE)
 
