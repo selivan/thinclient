@@ -18,7 +18,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] Graphic drivers - choose in vars.yml
 [x] Template - switch to python3 for ansible, no need for python2
 [ ] update-initramfs - use separate config for ram initrd, without disk drivers
-[ ] systemd-timesyncd - fix problems
+[x] systemd-timesyncd - fix problems
 [ ] Boot from USB drive - syslinux, script.
 [ ] uvesafb: include v86d; documentation; userparameter for configuration
 [x] documentation - DEPLOY.md - how-to's for dhcpd + tftpd, dnsmasq, nginx.
