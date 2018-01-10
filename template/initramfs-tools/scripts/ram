@@ -87,7 +87,11 @@ do_rammount()
 	fi
 
 	# This parts in rootfs should be writable
-	for dir in /tmp /run /var/log /media /var/lib/dhcp /etc/apparmor.d/cache; do
+	# /var/tmp - temporary files to be preserved between reboots(by FHS). Used by systemd-timesyncd
+	# /var/lib/systemd - systemd timers and other auxiliary files
+	# /var/lib/dhcp - reuqired to hold dhclient leases
+	# /etc/apparmor.d/cache - required for apparmor cache. Apparmor doesn't play well with overlayfs root, this is in case I will ever fix it
+	for dir in /tmp /var/tmp /run /media /var/log /var/lib/systemd /var/lib/dhcp /etc/apparmor.d/cache; do
 		if [ -d "${rootmnt}${dir}" ]; then
 			echo "Creating tmpfs rw filesystem for $dir"
 			mount -t tmpfs none "${rootmnt}${dir}"
@@ -150,6 +154,10 @@ mountroot()
 						overlays=${x#overlays=}
 						export overlays=$( echo $overlays | tr ';' ' ' )
 						;;
+				uvesafb=*)
+						uvesafb=${x#uvesafb=}
+						export uvesafb=$( echo $uvesafb | tr ';' ' ' )
+						;;
 				overlayproto=*)
 						export overlayproto=${x#overlayproto=}
 						;;
@@ -162,20 +170,21 @@ mountroot()
 				esac
 		done
 
-		log_begin_msg "Loading module aufs"
-		modprobe aufs
-		log_end_msg
-		log_begin_msg "Loading module squashfs"
+		echo "Loading module squashfs"
 		modprobe squashfs
-		log_end_msg
 		# For DHCP
+		echo "Loading module af_packet"
 		modprobe af_packet
 
+		# Fallback mode for graphics
+		if [ -n "$uvesafb" ]; then
+			echo "Configuring graphics with usavefb: $uvesafb"
+			modprobe uvesafb $uvesafb
+		fi
+
+		# Networking
 		# Default delay is around 180s
 		delay=${ROOTDELAY:-180}
-
-		# Disable IPv6 boot
-		export IP6=off
 		configure_networking
 
 		# Start debug shell inside initrd if initrddebug is set

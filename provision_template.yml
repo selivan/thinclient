@@ -38,6 +38,9 @@
     - cpio
     # console autologin
     - mingetty
+    # required for uvesafb framebuffer module
+    # this package has built-in hooks for initramfs-tools
+    - v86d
 - name: install general linux kernel packages
   apt: pkg={{ item }} state=latest
   with_items:
