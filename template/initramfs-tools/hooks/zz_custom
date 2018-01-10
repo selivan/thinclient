@@ -25,6 +25,7 @@ manual_add_modules squashfs
 manual_add_modules overlay
 # Fucking closed-source Intel(really it is PowerVR SGX) graphics with a lot of problems
 #manual_add_modules cedarview_gfx
+# Fallback is no better drivers
 manual_add_modules uvesafb
 
 exit 0
