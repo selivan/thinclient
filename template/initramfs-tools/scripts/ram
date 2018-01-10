@@ -87,7 +87,11 @@ do_rammount()
 	fi
 
 	# This parts in rootfs should be writable
-	for dir in /tmp /run /var/log /media /var/lib/dhcp /etc/apparmor.d/cache; do
+	# /var/tmp - temporary files to be preserved between reboots(by FHS). Used by systemd-timesyncd
+	# /var/lib/systemd - systemd timers and other auxiliary files
+	# /var/lib/dhcp - reuqired to hold dhclient leases
+	# /etc/apparmor.d/cache - required for apparmor cache. Apparmor doesn't play well with overlayfs root, this is in case I will ever fix it
+	for dir in /tmp /var/tmp /run /media /var/log /var/lib/systemd /var/lib/dhcp /etc/apparmor.d/cache; do
 		if [ -d "${rootmnt}${dir}" ]; then
 			echo "Creating tmpfs rw filesystem for $dir"
 			mount -t tmpfs none "${rootmnt}${dir}"
