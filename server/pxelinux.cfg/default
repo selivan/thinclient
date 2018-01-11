@@ -1,6 +1,8 @@
 default thinclient
 prompt 0
 
+# Create shortcuts for RDP connections
+# rdpservers=rdp%server%1:dc1.example.net:3389:/src:rdp;rdp%server2:dc2.example.net:5555:/sec:rdp%/bpp:24
 # DEBUG with serial console
 # console=tty1 console=ttyS0,115200n8
 # DEBUG shell inside initrd
@@ -12,4 +14,4 @@ prompt 0
 # uvesafb=mode_option=1280x800-32;scroll=ywrap
 label thinclient
     kernel vmlinuz
-    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp%server1:dc1.example.net:3389;rdp%server2:dc2.example.net:5555:/sec:rdp%/bpp:24
+    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp%server%1:dc1.example.net:3389:/sec:rdp
