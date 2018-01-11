@@ -2,7 +2,7 @@
 
 Tools to create Ubuntu GNU/Linux image for [thin clients](http://en.wikipedia.org/wiki/Thin_client). It boots over network and works entirely from memory.
 
-Doesn't need to mount root fileystem via network, like [DisklessUbuntu](https://help.ubuntu.com/community/DisklessUbuntuHowto). Works much better in slow or unreliable networks: clients do not slow down or hang up because of network lags.
+Doesn't need to mount root fileystem from network share, like [DisklessUbuntu](https://help.ubuntu.com/community/DisklessUbuntuHowto). Works much better in slow or unreliable networks: clients do not slow down or hang up because of network lags.
 
 Most common use case is creating custom thin clilent for RDP terminals.
 
