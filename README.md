@@ -17,6 +17,8 @@ This project was originaly created by [efim-a-efim](https://github.com/efim-a-ef
 * [Deploy](docs/DEPLOY.md) - bring it to production servers
 * [Internals](docs/INTERNALS.md) - see how it ticks under the hood
 
-## LICENSE: [GPL v3](LICENSE)
+## License
+
+[GPL v3](LICENSE)
 
 **P.S.** If this code is useful for you - don't forget to put a star on it's [github repo](https://github.com/selivan/thinclient).
