@@ -19,6 +19,6 @@ This project was originaly created by [efim-a-efim](https://github.com/efim-a-ef
 
 ## License
 
-[GPL v3](LICENSE)
+[GNU General Public License v3.0](LICENSE)
 
 **P.S.** If this code is useful for you - don't forget to put a star on it's [github repo](https://github.com/selivan/thinclient).
