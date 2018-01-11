@@ -25,7 +25,7 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] documentation - check Thinstation documentation for better English language
 [ ] README - add youtube video how it works
 
-Probable alternative to Vagrant:
+Probable alternatives to Vagrant:
 
 Single build/server machine, chroot, mksquashfs --ex ...,
 Single test machine
