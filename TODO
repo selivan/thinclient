@@ -17,12 +17,11 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [x] Specify packages to exclude all their files from image. Like virtualbox-guest-utils, grub*, openssh-server and so on.
 [x] Graphic drivers - choose in vars.yml
 [x] Template - switch to python3 for ansible, no need for python2
-[ ] update-initramfs - use separate config for ram initrd, without disk drivers
+[ ] update-initramfs - use separate config for ram initrd, without disk drivers. Seems hard, it hasn't option to choose config file
 [x] systemd-timesyncd - fix problems
 [ ] Boot from USB drive - syslinux, script.
 [x] uvesafb: include v86d; documentation; userparameter for configuration
 [x] documentation - DEPLOY.md - how-to's for dhcpd + tftpd, dnsmasq, nginx.
-[ ] documentation - check Thinstation documentation for better English language
 [ ] README - add youtube video how it works
 
 Probable alternatives to Vagrant:
