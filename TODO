@@ -25,7 +25,8 @@ https://www.vagrantup.com/docs/networking/private_network.html
 [ ] documentation - check Thinstation documentation for better English language
 [ ] README - add youtube video how it works
 
-Probable alternative:
+Probable alternative to Vagrant:
+
 Single build/server machine, chroot, mksquashfs --ex ...,
 Single test machine
 Problems with running X inside chroot. Probable solutions:
