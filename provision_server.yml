@@ -32,6 +32,8 @@
   with_items:
     - systemd/system/dnsmasq.service.d/override.conf
   notify: systemctl daemon-reload
+- name: create build directory
+  file: path=/vagrant/build state=directory
 - name: create symlinks for pxelinux loader
   file: path={{ item.path }} state=link src={{ item.src }}
   with_items:
