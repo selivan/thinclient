@@ -29,6 +29,9 @@
 - name: remove dependencies that are no longer required
   apt:
     autoremove: yes
+- name: disable sshd password login
+  lineinfile: path=/etc/ssh/sshd_config regexp='^PasswordAuthentication' line='PasswordAuthentication no'
+  notify: reload sshd
 - name: install required packages
   apt: name={{ item }} state=latest
   with_items:
