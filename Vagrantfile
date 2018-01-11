@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
 
       # Does not require a lot of firepower to be a small TFTP/DHCP/HTTP server
       machine.vm.provider "virtualbox" do |vb|
-        vb.memory = "256"
+        vb.memory = "512"
         vb.cpus = 1
       end
 
@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
         ansible.install = true
         ansible.limit = "all"
         ansible.raw_arguments = [ "--ssh-common-args=\"-o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes\"" ]
-        ansible.verbose = "v"
+        ansible.verbose = "vvv"
         ansible.playbook = "provision.yml"
         ansible.inventory_path = "provision.inventory.ini"
       end
