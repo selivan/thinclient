@@ -25,6 +25,8 @@
   notify: restart dnsmasq
   # dnsmasq fails to start if tftp directory /vagrant/build is not ready yet
   # this makes it try infinitely
+- name: create dnsmasq systemd config directories
+  file: path=/etc/systemd/system/dnsmasq.service.d state=directory recurse=yes
 - name: install dnsmasq systemd config override
   template: src=server/{{ item }} dest=/etc/{{ item }} mode=0640
   with_items:
