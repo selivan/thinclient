@@ -7,12 +7,12 @@
     - name: include provision_server.yml
       include_tasks: provision_server.yml
   handlers:
+    - name: systemctl daemon-reload
+      shell: systemctl daemon-reload
     - name: restart dnsmasq
       service: name=dnsmasq state=restarted
     - name: restart nginx
       service: name=nginx state=restarted
-    - name: systemctl daemon-reload
-      shell: systemctl daemon-reload
 
 - hosts: template
   become: yes
