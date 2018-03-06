@@ -10,6 +10,15 @@
   template: src=template/systemd/system/generate-interfaces.service dest=/etc/systemd/system/generate-interfaces.service mode=0644
 - name: enable systemd service to generate interfaces file
   service: name=generate-interfaces.service enabled=yes
+- name: scripts to enable/disable zram
+  template: src=template/scripts/{{ item }} dest=/usr/local/bin/{{ item }} mode=0755
+  with_items:
+    - zram-start.sh
+    - zram-stop.sh
+- name: systemd service to enable zram
+  template: src=template/systemd/system/zram.service dest=/etc/systemd/system/zram.service mode=0644
+- name: enable systemd service to enable zram
+  service: name=zram.service enabled=yes
 - name: install apt sources.list
   template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
   register: apt_sources_list

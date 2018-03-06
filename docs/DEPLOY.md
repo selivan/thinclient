@@ -33,6 +33,11 @@ prompt 0
 # initrddebug=y
 # Mount overlays over rootfs
 # overlayproto=http overlays=overlay1.tar.gz,overlay2.tar.gz
+# Percent of RAM used for RAM compression(zram) optimization. Default is 50, 0 disables it.
+# zram_size_pct=50
+# Fallback mode for graphics and framebuffer
+# Documentation: https://www.kernel.org/doc/Documentation/fb/uvesafb.txt
+# uvesafb=mode_option=1280x800-32;scroll=ywrap
 label thinclient
     kernel vmlinuz
     append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp%server1:dc1.example.net:3389;rdp%server2:dc2.example.net:5555:/sec:rdp%/bpp:24
@@ -94,6 +99,11 @@ prompt 0
 # initrddebug=y
 # Mount overlays over rootfs
 # overlayproto=http overlays=overlay1.tar.gz,overlay2.tar.gz
+# Percent of RAM used for RAM compression(zram) optimization. Default is 50, 0 disables it.
+# zram_size_pct=50
+# Fallback mode for graphics and framebuffer
+# Documentation: https://www.kernel.org/doc/Documentation/fb/uvesafb.txt
+# uvesafb=mode_option=1280x800-32;scroll=ywrap
 label thinclient
     kernel vmlinuz
     append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp%server1:dc1.example.net:3389;rdp%server2:dc2.example.net:5555:/sec:rdp%/bpp:24

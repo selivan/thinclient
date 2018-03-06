@@ -12,6 +12,7 @@ This project was originaly created by [efim-a-efim](https://github.com/efim-a-ef
 
 * Easily add any software from rich Ubuntu repositories: browser, photo/video recorder for camera, skype, media player, etc. This is not so easy for other thin clients, using their own package base, like [ThinStation](http://www.thinstation.org/).
 * Overlays(file archives) can be mounted over root filesystem, allowing different thin stations to have different configs/software, without building many different images.
+* Compressed RAM(zram) is used to make devices with low memory work usable.
 
 ### Documentation
 
