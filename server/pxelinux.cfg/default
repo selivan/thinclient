@@ -9,7 +9,8 @@ prompt 0
 # initrddebug=y
 # Mount overlays over rootfs
 # overlayproto=http overlays=overlay1.tar.gz,overlay2.tar.gz
-# Percent of RAM used for RAM compression(zram) optimization. Default is 50, 0 disables it.
+# Percent of RAM used for compressed RAM (zram) optimization. Default is 50, 0 disables it.
+# Documentation: https://www.kernel.org/doc/Documentation/blockdev/zram.txt
 # zram_size_pct=50
 # Fallback mode for graphics and framebuffer
 # Documentation: https://www.kernel.org/doc/Documentation/fb/uvesafb.txt
