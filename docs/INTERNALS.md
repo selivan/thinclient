@@ -22,7 +22,7 @@ Some diskless devices do not have enough memory to run all the applications you 
 
 Boot parameter `zram_size_pct` controls what amount of available memory(in percent) will be used for zram. Default is 50. 0 disables this feature.
 
-Scripts are copied from ubuntu [zram-config](https://packages.ubuntu.com/xenial/zram-config) package, the only change is configurable parameter for amount of memory used for zram.
+Scripts are copied from ubuntu [zram-config](https://packages.ubuntu.com/xenial/zram-config) package, the only change is configurable parameter for amount of memory used for zram and compression algorithm.
 
 ## Initrd hacks
 
