@@ -33,9 +33,9 @@ mem=$(((totalmem / 100 * ${zram_size_pct} / ${NRDEVICES}) * 1024))
 # initialize the devices
 for i in $(seq ${NRDEVICES}); do
     DEVNUMBER=$((i - 1))
-    echo $mem > /sys/block/zram${DEVNUMBER}/disksize
     # Use lz4 algorithm if available
     grep -q lz4 /sys/block/zram${DEVNUMBER}/comp_algorithm && echo lz4 > /sys/block/zram${DEVNUMBER}/comp_algorithm
+    echo $mem > /sys/block/zram${DEVNUMBER}/disksize
     mkswap /dev/zram${DEVNUMBER}
     swapon --priority 5 /dev/zram${DEVNUMBER}
 done
