@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   #config.vm.box_check_update = false
 
   # Machine to test images, boots from PXE
-  # No autostart - useless without uther machines
+  # No autostart - this one is useless without other machines
   config.vm.define "test", autostart: false do |machine|
       # Disable synced folders
       machine.vm.synced_folder ".", "/vagrant", disabled: true
@@ -56,14 +56,6 @@ Vagrant.configure("2") do |config|
         vb.memory = "512"
         vb.cpus = 1
       end
-
-      # Ansible runs better with python2
-      machine.vm.provision "shell", inline: <<-SHELL
-        if [ ! -f /usr/bin/python ]; then
-          apt-get update
-          apt-get install -y python-minimal
-        fi
-      SHELL
 
       # Provision for all machines
       machine.vm.provision "ansible_local" do |ansible|
