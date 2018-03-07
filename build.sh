@@ -24,7 +24,7 @@ build-initrd() {
 }
 
 # UGLY CRUTCH HERE
-# I coulnd't make mksquashfs to exclude all files in /var/log, but include /var/log directory
+# I coulnd't make mksquashfs to exclude all files in some directory, but include the directory itself
 # So let's generate all files to exclude explicitly
 generate-rootfs-excludes() {
     for d in /boot /dev /proc /sys /tmp /var/tmp /run /mnt /home/ubuntu /home/vagrant /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /var/cache/man /usr/src /var/lib/systemd /var/lib/dhcp/; do
