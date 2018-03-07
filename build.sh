@@ -27,7 +27,7 @@ build-initrd() {
 # I coulnd't make mksquashfs to exclude all files in some directory, but include the directory itself
 # So let's generate all files to exclude explicitly
 generate-rootfs-excludes() {
-    for d in /boot /dev /proc /sys /tmp /var/tmp /run /mnt /home/ubuntu /home/vagrant /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /var/cache/man /usr/src /var/lib/systemd /var/lib/dhcp/; do
+    for d in /boot /dev /proc /sys /tmp /var/tmp /run /mnt /home/ubuntu /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /var/cache/man /usr/src /var/lib/systemd /var/lib/dhcp/; do
         find $d -mindepth 1 -maxdepth 1 >> "$1"
     done
     # Exclude all files from this packages
@@ -38,6 +38,7 @@ generate-rootfs-excludes() {
             fi
         done
     done
+    echo /home/vagrant >> "$1"
     echo /vagrant >> "$1"
     echo initrd.img >> "$1"
     echo vmlinuz >> "$1"
