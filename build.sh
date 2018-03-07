@@ -25,8 +25,10 @@ build-initrd() {
 
 # UGLY CRUTCH HERE
 # I coulnd't make mksquashfs to exclude all files in some directory, but include the directory itself
-# So let's generate all files to exclude explicitly
+# So let's generate list of all files to exclude explicitly
 generate-rootfs-excludes() {
+    # too much noise
+    set +x
     for d in /boot /dev /proc /sys /tmp /var/tmp /run /mnt /home/ubuntu /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /var/cache/man /usr/src /var/lib/systemd /var/lib/dhcp/; do
         find $d -mindepth 1 -maxdepth 1 >> "$1"
     done
