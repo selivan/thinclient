@@ -24,7 +24,7 @@ build-initrd() {
 }
 
 # UGLY CRUTCH HERE
-# I coulnd't make mksquashfs to exclude all files in some directory, but include the directory itself
+# I coulnd't make mksquashfs exclude all files in some directory, but include the directory itself
 # So let's generate list of all files to exclude explicitly
 generate-rootfs-excludes() {
     # too much noise
