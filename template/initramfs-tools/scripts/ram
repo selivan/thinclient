@@ -30,8 +30,6 @@ do_rammount()
 	get_url "${rootproto}" "${rooturl}" "/tmp/rootfs.squashfs" || return $?
 	log_end_msg
 
-	echo -e "\n############\nSTRANGE MAGIC HERE\n############\n"
-
 	set -x
 
 	if [ -z "$overlays" ]; then
@@ -99,7 +97,6 @@ do_rammount()
 	done
 
 	set +x
-	echo "STRANGE MAGIC FINISHED"
 
 	# Home needs some magic 'cause it can be mounted through NFS
 	# if [ "${homeproto}" = "nfs" ]; then
