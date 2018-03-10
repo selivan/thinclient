@@ -9,7 +9,9 @@ git clone https://github.com/selivan/thinclient.git
 cd thinclient
 ```
 
-Create machine that will be used as template for our image. If you want to create minimal working image, set `install_gui_and_rdp_client:no` in `vars.yml`.\
+Create machine that will be used as template for our image. If you want to create minimal working image, set `install_gui_and_rdp_client:no` in `vars.yml`. If you are going to build an image for 32-bit hardware, set `config.vm.box` to `"ubuntu/xenial32"` in `Vagrantfile`.
+
+
 `vagrant up template`
 
 Create machine that will work as PXE server for testing. Also it is used to provision configuration to template machine with [Ansible](http://docs.ansible.com/ansible/latest/index.html).\
