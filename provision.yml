@@ -9,7 +9,7 @@
     # In VirtualBox on Windows files in shared /vagrant folder have too wide permissions
     # openssh refuses to use private keys with wrong mode
     - name: copy template ssh key to local directory and change its mode
-      shell: cp -f /vagrant/.vagrant/machines/template/virtualbox/private_key /root/template_private_key && chmod 0600 /root/template_private_key
+      shell: cp -f /vagrant/.vagrant/machines/template/virtualbox/private_key /home/vagrant/template_private_key && chown vagrant /home/vagrant/template_private_key && chmod 0600 /home/vagrant/template_private_key
   handlers:
     - name: systemctl daemon-reload
       shell: systemctl daemon-reload
