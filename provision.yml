@@ -7,8 +7,9 @@
     - name: include provision_server.yml
       include_tasks: provision_server.yml
     # In VirtualBox on Windows files in shared /vagrant folder have too wide permissions
-    - name: change mode for template ssh key to prevent ssh error
-      file: path=/vagrant/.vagrant/machines/template/virtualbox/private_key mode=0600
+    # openssh refuses to use private keys with wrong mode
+    - name: copy template ssh key to local directory and change its mode
+      shell: cp /vagrant/.vagrant/machines/template/virtualbox/private_key /root/template_private_key && chmod 0600 /root/template_private_key
   handlers:
     - name: systemctl daemon-reload
       shell: systemctl daemon-reload
