@@ -6,6 +6,9 @@
       # /vagrant path is used because ansible_local playbook runs inside virtual host
     - name: include provision_server.yml
       include_tasks: provision_server.yml
+    # In VirtualBox on Windows files in shared /vagrant folder have wide permissions
+    - name: change mode for template ssh key to prevent ssh error
+      file: path=/vagrant/.vagrant/machines/template/virtualbox/private_key mode=0600
   handlers:
     - name: systemctl daemon-reload
       shell: systemctl daemon-reload
