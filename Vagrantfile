@@ -6,7 +6,7 @@ Vagrant.require_version ">= 1.7.0"
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/bionic64"
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -66,14 +66,14 @@ Vagrant.configure("2") do |config|
       SHELL
 
       # Provision for all machines
-      machine.vm.provision "ansible_local" do |ansible|
-        ansible.install = true
-        ansible.limit = "all"
-        ansible.raw_arguments = [ "--ssh-common-args=\"-o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes\"" ]
-        ansible.verbose = "v"
-        ansible.playbook = "provision.yml"
-        ansible.inventory_path = "provision.inventory.ini"
-      end
+      # machine.vm.provision "ansible_local" do |ansible|
+      #   ansible.install = true
+      #   ansible.limit = "all"
+      #   ansible.raw_arguments = [ "--ssh-common-args=\"-o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes\"" ]
+      #   ansible.verbose = "v"
+      #   ansible.playbook = "provision.yml"
+      #   ansible.inventory_path = "provision.inventory.ini"
+      # end
 
   end
 

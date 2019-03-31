@@ -1,24 +1,5 @@
-- name: append cloud-init generated interfaces config to main interfaces file
-  shell: cat /etc/network/interfaces.d/50-cloud-init.cfg >> /etc/network/interfaces
-  args:
-    removes: /etc/network/interfaces.d/50-cloud-init.cfg
-- name: remove cloudinit generated interfaces config
-  file: path=/etc/network/interfaces.d/50-cloud-init.cfg state=absent
-- name: script to generate interfaces file
-  template: src=template/scripts/generate-interfaces.sh dest=/usr/local/bin/generate-interfaces.sh mode=0755
-- name: systemd service to generate interfaces file
-  template: src=template/systemd/system/generate-interfaces.service dest=/etc/systemd/system/generate-interfaces.service mode=0644
-- name: enable systemd service to generate interfaces file
-  service: name=generate-interfaces.service enabled=yes
-- name: scripts to enable/disable zram
-  template: src=template/scripts/{{ item }} dest=/usr/local/bin/{{ item }} mode=0755
-  with_items:
-    - zram-start.sh
-    - zram-stop.sh
-- name: systemd service to enable zram
-  template: src=template/systemd/system/zram.service dest=/etc/systemd/system/zram.service mode=0644
-- name: enable systemd service to enable zram
-  service: name=zram.service enabled=yes
+# Packages
+
 - name: install apt sources.list
   template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
   register: apt_sources_list
@@ -31,40 +12,38 @@
 # Apparmor profiles do not work with custom mounting scheme for rootfs
 - name: remove apparmor
   apt: name=apparmor state=absent purge=yes
-- name: remove unnecessary packages
-  apt: name={{ item }} state=absent purge=yes
-  with_items:
-    - "{{ packages_to_remove }}"
-- name: remove dependencies that are no longer required
-  apt:
-    autoremove: yes
-- name: disable sshd password login
-  lineinfile: path=/etc/ssh/sshd_config regexp='^PasswordAuthentication' line='PasswordAuthentication no'
-  notify: reload sshd
+- name: remove apparmor cache
+  file: path=/etc/apparmor.d/cache/ state=absent
 - name: install required packages
   apt: name={{ item }} state=latest
   with_items:
     - initramfs-tools
     - squashfs-tools
-    - aufs-tools
     - cpio
     # console autologin
     - mingetty
     # required for uvesafb framebuffer module
     # this package has built-in hooks for initramfs-tools
     - v86d
+#   amd64-microcode crda intel-microcode iucode-tool iw libnl-3-200 libnl-genl-3-200 linux-firmware linux-image-4.18.0-16-generic
+#  linux-image-generic-hwe-18.04 linux-modules-4.18.0-16-generic  linux-modules-extra-4.18.0-16-generic wireless-regdb
 - name: install general linux kernel packages
   apt: pkg={{ item }} state=latest
   with_items:
-    - linux-image-generic-hwe-16.04-edge
+    - linux-image-generic-hwe-18.04
     - linux-firmware
+- name: remove unnecessary packages
+  apt: name={{ item }} state=absent purge=yes
+  with_items:
+    - "{{ packages_to_remove }}"
 - name: remove virtual linux kernel packages and headers
   apt: pkg={{ item }} state=absent
   with_items:
     - linux-image-virtual
     - linux-headers-virtual
     - linux-headers-generic
-- name: remove old linux kernel and header packages
+# purge linux-modules-4.15.0-46-generic
+- name: remove old linux kernel and header packages1
   shell: |
     apt-cache depends linux-image-virtual | tr -s ' ' | grep '^ Depends:' | cut -d' ' -f3 | while read pkg; do
       if dpkg -l | grep ^ii | grep -q $pkg; then
@@ -80,6 +59,31 @@
     executable: /bin/bash
   register: apt_result
   changed_when: apt_result.stdout != ''
+- name: remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+- fail:
+
+# to use ifupdown instead of netplan: sudo apt install ifupdown
+- name: script to generate interfaces file
+  template: src=template/scripts/generate-interfaces.sh dest=/usr/local/bin/generate-interfaces.sh mode=0755
+- name: systemd service to generate interfaces file
+  template: src=template/systemd/system/generate-interfaces.service dest=/etc/systemd/system/generate-interfaces.service mode=0644
+- name: enable systemd service to generate interfaces file
+  service: name=generate-interfaces.service enabled=yes
+- name: scripts to enable/disable zram
+  template: src=template/scripts/{{ item }} dest=/usr/local/bin/{{ item }} mode=0755
+  with_items:
+    - zram-start.sh
+    - zram-stop.sh
+- name: systemd service to enable zram
+  template: src=template/systemd/system/zram.service dest=/etc/systemd/system/zram.service mode=0644
+- name: enable systemd service to enable zram
+  service: name=zram.service enabled=yes
+- name: disable sshd password login
+  lineinfile: path=/etc/ssh/sshd_config regexp='^PasswordAuthentication' line='PasswordAuthentication no'
+  notify: reload sshd
 - name: install initramfs hook script and config
   copy: src=template/{{ item }} dest=/etc/{{ item }} mode=0755
   with_items:
@@ -96,5 +100,5 @@
   with_items:
     - systemd/system/getty@tty1.service.d/override.conf
   notify: systemctl daemon-reload
-- name: set password for uubntu user to enable autologin
+- name: set password for ubuntu user to enable autologin
   user: name=ubuntu password={{ 'ubuntu' | hash('sha512') }}

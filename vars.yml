@@ -3,25 +3,25 @@ install_gui_and_rdp_client: yes
 # Uncomment drivers for your devices
 xorg_video_drivers:
 # This will install all available drivers
-  # - xserver-xorg-video-all-hwe-16.04
-  - xserver-xorg-video-intel-hwe-16.04
-  # - xserver-xorg-video-nouveau-hwe-16.04
-  # - xserver-xorg-video-amdgpu-hwe-16.04
-  # - xserver-xorg-video-ati-hwe-16.04
-  # - xserver-xorg-video-dummy-hwe-16.04
-  # - xserver-xorg-video-geode-hwe-16.04
-  # - xserver-xorg-video-mach64-hwe-16.04
-  # - xserver-xorg-video-neomagic-hwe-16.04
-  # - xserver-xorg-video-openchrome-hwe-16.04
-  # - xserver-xorg-video-qxl-hwe-16.04
-  # - xserver-xorg-video-r128-hwe-16.04
-  # - xserver-xorg-video-radeon-hwe-16.04
-  # - xserver-xorg-video-savage-hwe-16.04
-  # - xserver-xorg-video-siliconmotion-hwe-16.04
-  # - xserver-xorg-video-sisusb-hwe-16.04
-  # - xserver-xorg-video-tdfx-hwe-16.04
-  # - xserver-xorg-video-trident-hwe-16.04
-  # - xserver-xorg-video-vmware-hwe-16.04
+  # - xserver-xorg-video-all-hwe-18.04
+  - xserver-xorg-video-intel-hwe-18.04
+  # - xserver-xorg-video-nouveau-hwe-18.04
+  # - xserver-xorg-video-amdgpu-hwe-18.04
+  # - xserver-xorg-video-ati-hwe-18.04
+  # - xserver-xorg-video-dummy-hwe-18.04
+  # - xserver-xorg-video-geode-hwe-18.04
+  # - xserver-xorg-video-mach64-hwe-18.04
+  # - xserver-xorg-video-neomagic-hwe-18.04
+  # - xserver-xorg-video-openchrome-hwe-18.04
+  # - xserver-xorg-video-qxl-hwe-18.04
+  # - xserver-xorg-video-r128-hwe-18.04
+  # - xserver-xorg-video-radeon-hwe-18.04
+  # - xserver-xorg-video-savage-hwe-18.04
+  # - xserver-xorg-video-siliconmotion-hwe-18.04
+  # - xserver-xorg-video-sisusb-hwe-18.04
+  # - xserver-xorg-video-tdfx-hwe-18.04
+  # - xserver-xorg-video-trident-hwe-18.04
+  # - xserver-xorg-video-vmware-hwe-18.04
 # Need something else?
 additional_gui_packages: []
 
