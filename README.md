@@ -1,3 +1,5 @@
+**NEWS**: Check out new `20.04` branch with Ubuntu 20.04 Focal and option to use VMWare Horizon. It still needs some polishing, though.
+
 ### Thinclient
 
 Tools to create Ubuntu GNU/Linux image for [thin clients](http://en.wikipedia.org/wiki/Thin_client). It boots via network and works entirely from memory.
