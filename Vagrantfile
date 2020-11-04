@@ -6,7 +6,8 @@ Vagrant.require_version ">= 1.7.0"
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "ubuntu/xenial64"
+  # config.vm.box = "ubuntu/focal64"
+  config.vm.box = "generic/ubuntu2004"
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -36,6 +37,9 @@ Vagrant.configure("2") do |config|
   # Machine to be template for images
   # Provisioning is mostly  done later by "server" machine
   config.vm.define "template" do |machine|
+
+      machine.vm.synced_folder ".", "/vagrant"
+
       machine.vm.network "private_network", ip: "192.168.10.253", virtualbox__intnet: "thinclient-pxc"
 
       # Memory and CPU - to work faster with squashfs
@@ -49,6 +53,9 @@ Vagrant.configure("2") do |config|
 
   # Machine to be used as PXC server and to configure others with ansible
   config.vm.define "server" do |machine|
+
+      machine.vm.synced_folder ".", "/vagrant"
+
       machine.vm.network "private_network", ip: "192.168.10.254", virtualbox__intnet: "thinclient-pxc"
 
       # Does not require a lot of firepower to be a small TFTP/DHCP/HTTP server
@@ -57,20 +64,19 @@ Vagrant.configure("2") do |config|
         vb.cpus = 1
       end
 
-      # Ansible runs better with python2
       machine.vm.provision "shell", inline: <<-SHELL
-        if [ ! -f /usr/bin/python ]; then
-          apt-get update
-          apt-get install -y python-minimal
-        fi
+        type python3 || apt-get install -y python3-minimal
+        type apt-add-repository || apt-get install -y software-properties-common
+        apt-get install -y ansible
+        mkdir -p /vagrant
       SHELL
 
       # Provision for all machines
       machine.vm.provision "ansible_local" do |ansible|
-        ansible.install = true
+        # vagrant tries to install ansble from ppa that does not have version for ubuntu 20.04
+        ansible.install = false
+        ansible.verbose = true
         ansible.limit = "all"
-        ansible.raw_arguments = [ "--ssh-common-args=\"-o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes\"" ]
-        ansible.verbose = "v"
         ansible.playbook = "provision.yml"
         ansible.inventory_path = "provision.inventory.ini"
       end

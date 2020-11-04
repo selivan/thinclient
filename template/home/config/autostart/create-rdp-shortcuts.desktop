@@ -1,5 +1,5 @@
 [Desktop Entry]
 Name=Create RDP connections shortcuts
-Exec=/home/ubuntu/.local/bin/create-rdp-shortcuts.sh
+Exec=/home/vagrant/.local/bin/create-rdp-shortcuts.sh
 Terminal=false
 Type=Application

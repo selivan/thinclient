@@ -1,27 +1,51 @@
 # Choose "no" to create minimal console-only system
-install_gui_and_rdp_client: yes
+install_gui_and_rdp_client: no
+
+install_gui_and_vmware_horizon_client: yes
+
+horizon_url: https://download3.vmware.com/software/view/viewclients/CART21FQ2/VMware-Horizon-Client-2006-8.0.0-16522670.x64.bundle
+horizon_bundle_file: VMware-Horizon-Client-2006-8.0.0-16522670.x64.bundle
+# Docs: https://docs.vmware.com/en/VMware-Horizon-Client-for-Linux/2006/horizon-client-linux-installation/GUID-A5A6332F-1DEC-4D77-BD6E-1362596A2E76.html
+horizon_install_options: >-
+  --eulas-agreed --console --required \
+  --set-setting vmware-horizon-html5mmr html5mmrEnable yes \
+  --set-setting vmware-horizon-integrated-printing vmipEnable yes \
+  --set-setting vmware-horizon-media-provider mediaproviderEnable yes \
+  --set-setting vmware-horizon-mmr mmrEnable yes \
+  --set-setting vmware-horizon-rtav rtavEnable yes \
+  --set-setting vmware-horizon-scannerclient scannerEnable yes \
+  --set-setting vmware-horizon-serialportclient serialportEnable yes \
+  --set-setting vmware-horizon-smartcard smartcardEnable yes \
+  --set-setting vmware-horizon-tsdr tsdrEnable yes \
+  --set-setting vmware-horizon-usb usbEnable yes
+
+horizon_required_packages:
+  - libgtk-3-0
+  - libcups2
+
 # Uncomment drivers for your devices
 xorg_video_drivers:
 # This will install all available drivers
-  # - xserver-xorg-video-all-hwe-16.04
-  - xserver-xorg-video-intel-hwe-16.04
-  # - xserver-xorg-video-nouveau-hwe-16.04
-  # - xserver-xorg-video-amdgpu-hwe-16.04
-  # - xserver-xorg-video-ati-hwe-16.04
-  # - xserver-xorg-video-dummy-hwe-16.04
-  # - xserver-xorg-video-geode-hwe-16.04
-  # - xserver-xorg-video-mach64-hwe-16.04
-  # - xserver-xorg-video-neomagic-hwe-16.04
-  # - xserver-xorg-video-openchrome-hwe-16.04
-  # - xserver-xorg-video-qxl-hwe-16.04
-  # - xserver-xorg-video-r128-hwe-16.04
-  # - xserver-xorg-video-radeon-hwe-16.04
-  # - xserver-xorg-video-savage-hwe-16.04
-  # - xserver-xorg-video-siliconmotion-hwe-16.04
-  # - xserver-xorg-video-sisusb-hwe-16.04
-  # - xserver-xorg-video-tdfx-hwe-16.04
-  # - xserver-xorg-video-trident-hwe-16.04
-  # - xserver-xorg-video-vmware-hwe-16.04
+  # - xserver-xorg-video-all
+  # - xserver-xorg-video-all
+  - xserver-xorg-video-intel
+  # - xserver-xorg-video-nouveau
+  # - xserver-xorg-video-amdgpu
+  # - xserver-xorg-video-ati
+  # - xserver-xorg-video-dummy
+  # - xserver-xorg-video-geode
+  # - xserver-xorg-video-mach64
+  # - xserver-xorg-video-neomagic
+  # - xserver-xorg-video-openchrome
+  # - xserver-xorg-video-qxl
+  # - xserver-xorg-video-r128
+  # - xserver-xorg-video-radeon
+  # - xserver-xorg-video-savage
+  # - xserver-xorg-video-siliconmotion
+  # - xserver-xorg-video-sisusb
+  # - xserver-xorg-video-tdfx
+  # - xserver-xorg-video-trident
+  # - xserver-xorg-video-vmware
 # Need something else?
 additional_gui_packages: []
 
@@ -30,5 +54,78 @@ dhcp_end_addr: "192.168.10.250"
 dhcp_netmask: "255.255.255.0"
 dhcp_router: "192.168.10.254"
 
+autologin_user: vagrant
+
+# Linux kernel to install
+linux_kernel_package: linux-image-generic
+
 # Packages removed from template to make image smaller
-packages_to_remove: [ accountsservice, libaccountsservice0, apport, apport-symptoms, at, btrfs-tools, python3-apport, bcache-tools, byobu, cloud-init, cloud-guest-utils, cloud-initramfs-copymods, cloud-initramfs-dyn-netconf, cryptsetup, cryptsetup-bin, command-not-found, command-not-found-data, dosfstools, grub-legacy-ec2, info, lvm2, mdadm, lxc-common, lxcfs, lxd, lxd-client, mlocate, overlayroot, os-prober, pastebinit, rename, run-one, screen, tcpd, snapd, sosreport, ssh-import-id, ubuntu-core-launcher, ureadahead, unattended-upgrades, update-notifier-common, zerofree, update-manager-core ubuntu-release-upgrader-core, python3-update-manager python3-distupgrade, python3-cffi-backend python3-cryptography, python3-json-pointer, python3-jsonpatch, python3-idna, python3-systemd, open-iscsi, open-vm-tools, vim, vim-runtime, vim-tiny, friendly-recovery, geoip-database ]
+packages_to_remove:
+  - git
+  - git-man
+  - accountsservice
+  - libaccountsservice0
+  - multipath-tools
+  - packagekit
+  - packagekit-tools
+  - apport
+  - apport-symptoms
+  - at
+  - btrfs-tools
+  - python3-apport
+  - bcache-tools
+  - byobu
+  - cloud-init
+  - cloud-guest-utils
+  - cloud-initramfs-copymods
+  - cloud-initramfs-dyn-netconf
+  - cryptsetup
+  - cryptsetup-bin
+  - command-not-found
+  - command-not-found-data
+  - dosfstools
+  - grub-legacy-ec2
+  - info
+  - lvm2
+  - mdadm
+  - language-pack-gnome-en
+  - language-pack-gnome-en-base
+  - language-pack-en
+  - language-pack-en-base
+  - lxc-common
+  - lxcfs
+  - lxd
+  - lxd-client
+  - mlocate
+  - overlayroot
+  - os-prober
+  - pastebinit
+  - rename
+  - run-one
+  - screen
+  - tcpd
+  - snapd
+  - sosreport
+  - ssh-import-id
+  - ubuntu-core-launcher
+  - ureadahead
+  - unattended-upgrades
+  - update-notifier-common
+  - zerofree
+  - update-manager-core
+  - ubuntu-release-upgrader-core
+  - python3-update-manager
+  - python3-distupgrade
+  - python3-cffi-backend
+  - python3-cryptography
+  - python3-json-pointer
+  - python3-jsonpatch
+  - python3-idna
+  - python3-systemd
+  - open-iscsi
+  - open-vm-tools
+  - vim
+  - vim-runtime
+  - vim-tiny
+  - friendly-recovery
+  - geoip-database

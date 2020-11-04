@@ -1,85 +1,90 @@
-- name: append cloud-init generated interfaces config to main interfaces file
-  shell: cat /etc/network/interfaces.d/50-cloud-init.cfg >> /etc/network/interfaces
-  args:
-    removes: /etc/network/interfaces.d/50-cloud-init.cfg
-- name: remove cloudinit generated interfaces config
-  file: path=/etc/network/interfaces.d/50-cloud-init.cfg state=absent
-- name: script to generate interfaces file
-  template: src=template/scripts/generate-interfaces.sh dest=/usr/local/bin/generate-interfaces.sh mode=0755
-- name: systemd service to generate interfaces file
-  template: src=template/systemd/system/generate-interfaces.service dest=/etc/systemd/system/generate-interfaces.service mode=0644
-- name: enable systemd service to generate interfaces file
-  service: name=generate-interfaces.service enabled=yes
 - name: scripts to enable/disable zram
   template: src=template/scripts/{{ item }} dest=/usr/local/bin/{{ item }} mode=0755
   with_items:
     - zram-start.sh
     - zram-stop.sh
+
 - name: systemd service to enable zram
   template: src=template/systemd/system/zram.service dest=/etc/systemd/system/zram.service mode=0644
+
 - name: enable systemd service to enable zram
   service: name=zram.service enabled=yes
+
 - name: install apt sources.list
   template: src=common/apt/sources.list dest=/etc/apt/sources.list mode=0644
   register: apt_sources_list
+
 - name: update apt cache
   apt: update_cache=yes
-  when: apt_sources_list|changed
+  when: apt_sources_list is changed
+
 - name: disable apt periodic update
   template: src=template/{{ item }} dest=/etc/{{ item }}
   with_items: [ apt/apt.conf.d/10periodic ]
 # Apparmor profiles do not work with custom mounting scheme for rootfs
-- name: remove apparmor
-  apt: name=apparmor state=absent purge=yes
+
+- name: remove apparmor and snapd
+  apt:
+    state: absent
+    purge: yes
+    package:
+      - apparmor
+      - snapd
+
 - name: remove unnecessary packages
-  apt: name={{ item }} state=absent purge=yes
-  with_items:
-    - "{{ packages_to_remove }}"
+  apt: package="{{ packages_to_remove }}" state=absent purge=yes
+
+- name: upgrade all packages
+  apt:
+    upgrade: dist
+
 - name: remove dependencies that are no longer required
   apt:
     autoremove: yes
+
 - name: disable sshd password login
   lineinfile: path=/etc/ssh/sshd_config regexp='^PasswordAuthentication' line='PasswordAuthentication no'
   notify: reload sshd
+
 - name: install required packages
-  apt: name={{ item }} state=latest
-  with_items:
-    - initramfs-tools
-    - squashfs-tools
-    - aufs-tools
-    - cpio
-    # console autologin
-    - mingetty
-    # required for uvesafb framebuffer module
-    # this package has built-in hooks for initramfs-tools
-    - v86d
-- name: install general linux kernel packages
-  apt: pkg={{ item }} state=latest
-  with_items:
-    - linux-image-generic-hwe-16.04-edge
-    - linux-firmware
+  apt: 
+    state: latest
+    package:
+      - initramfs-tools
+      - squashfs-tools
+      # - aufs-tools
+      - cpio
+      # console autologin
+      - mingetty
+      # required for uvesafb framebuffer module
+      # this package has built-in hooks for initramfs-tools
+      - v86d
+
 - name: remove virtual linux kernel packages and headers
-  apt: pkg={{ item }} state=absent
-  with_items:
-    - linux-image-virtual
-    - linux-headers-virtual
-    - linux-headers-generic
+  apt: 
+    state: absent
+    package:
+      - linux-image-virtual
+      - linux-headers-virtual
+
+- name: install generic linux kernel and firmware packages
+  apt: 
+    state: latest
+    package:
+      - "{{ linux_kernel_package }}"
+      - linux-firmware
+      - amd64-microcode
+      - intel-microcode
+
+# We do not need old kernels and modules to take space in rootfs image
 - name: remove old linux kernel and header packages
   shell: |
-    apt-cache depends linux-image-virtual | tr -s ' ' | grep '^ Depends:' | cut -d' ' -f3 | while read pkg; do
-      if dpkg -l | grep ^ii | grep -q $pkg; then
-          apt-get -y --force-yes --purge remove $pkg
-      fi
-    done
-    apt-cache depends linux-headers-generic | tr -s ' ' | grep '^ Depends:' | cut -d' ' -f3 | while read pkg; do
-      if dpkg -l | grep ^ii | grep -q $pkg; then
-          apt-get -y --force-yes --purge remove $pkg
-      fi
-    done
-  args:
-    executable: /bin/bash
-  register: apt_result
-  changed_when: apt_result.stdout != ''
+    export DEBIAN_FRONTEND=noninteractive
+    dpkg -l 'linux-image-[0-9]*' | grep ^i | tr -s ' ' | cut -d' ' -f2 | sort -r | sed 1d  | xargs apt purge --allow-remove-essential -y
+    dpkg -l 'linux-modules-[0-9]*' | grep ^i | tr -s ' ' | cut -d' ' -f2 | sort -r | sed 1d  | xargs apt purge --allow-remove-essential -y
+    dpkg -l 'linux-modules-extra-[0-9]*' | grep ^i | tr -s ' ' | cut -d' ' -f2 | sort -r | sed 1d  | xargs apt purge --allow-remove-essential -y
+    apt-get purge --allow-remove-essential -y 'linux-headers-*' 'linux-tools-*' 'linux-cloud-tools-*'
+
 - name: install initramfs hook script and config
   copy: src=template/{{ item }} dest=/etc/{{ item }} mode=0755
   with_items:
@@ -87,14 +92,19 @@
     - initramfs-tools/scripts/ram
     - initramfs-tools/initramfs.conf
   notify: update initramfs
+  tags: initramfs-conf
+
 - name: create helper directory for aufs
   file: path=/AUFS state=directory mode=0755
+
 - name: create config directory getty@tty1.service.d
   file: path=/etc/systemd/system/getty@tty1.service.d state=directory
+
 - name: config autologin on first console
   template: src=template/{{ item }} dest=/etc/{{ item }} mode=0644
   with_items:
     - systemd/system/getty@tty1.service.d/override.conf
   notify: systemctl daemon-reload
-- name: set password for uubntu user to enable autologin
-  user: name=ubuntu password={{ 'ubuntu' | hash('sha512') }}
+
+- name: set password for autologin user to enable autologin
+  user: name={{ autologin_user }} password={{ autologin_user | password_hash('sha512', 'salt') }}

@@ -1,11 +1,11 @@
 - name: intall gui packages
   apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
-  - xserver-xorg-core-hwe-16.04
-  - xserver-xorg-input-all-hwe-16.04
+  - xserver-xorg-core
+  - xserver-xorg-input-all
   # Basic universal video drivers
-  - xserver-xorg-video-fbdev-hwe-16.04
-  - xserver-xorg-video-vesa-hwe-16.04
+  - xserver-xorg-video-fbdev
+  - xserver-xorg-video-vesa
   - xinit
   - lxde-core
   - lxde-common
@@ -26,7 +26,7 @@
   register: apt_repo_remmina
 - name: update apt cache
   apt: update_cache=yes
-  when: apt_repo_remmina|changed
+  when: apt_repo_remmina is changed
 - name: install freerdp
   apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
@@ -41,16 +41,20 @@
 #     - x11-xserver-utils
 #     - cpp
 #     - cpp-5
+
 - name: user bash_profile to autostart X session on first console
-  template: src=template/home/bash_profile dest=/home/ubuntu/.bash_profile owner=ubuntu mode=0640
-- name: user config directories
-  file: path={{ item }} state=directory owner=ubuntu
+  template: src=template/home/bash_profile dest=/home/{{ autologin_user }}/.bash_profile owner=ubuntu mode=0640
+
+  - name: user config directories
+  file: path={{ item }} state=directory owner={{ autologin_user }}
   with_items:
-    - /home/ubuntu/.config
-    - /home/ubuntu/.config/autostart
-    - /home/ubuntu/.local
-    - /home/ubuntu/.local/bin
-- name: script to create RDP shortcuts
-  template: src=template/home/local/bin/create-rdp-shortcuts.sh dest=/home/ubuntu/.local/bin/create-rdp-shortcuts.sh owner=ubuntu mode=0755
-- name: autostart entry to create RDP shortcuts
-  template: src=template/home/config/autostart/create-rdp-shortcuts.desktop dest=/home/ubuntu/.config/autostart/create-rdp-shortcuts.desktop owner=ubuntu mode=0755
+    - /home/{{ autologin_user }}/.config
+    - /home/{{ autologin_user }}/.config/autostart
+    - /home/{{ autologin_user }}/.local
+    - /home/{{ autologin_user }}/.local/bin
+
+    - name: script to create RDP shortcuts
+  template: src=template/home/local/bin/create-rdp-shortcuts.sh dest=/home/{{ autologin_user }}/.local/bin/create-rdp-shortcuts.sh owner=ubuntu mode=0755
+
+  - name: autostart entry to create RDP shortcuts
+  template: src=template/home/config/autostart/create-rdp-shortcuts.desktop dest=/home/{{ autologin_user }}/.config/autostart/create-rdp-shortcuts.desktop owner=ubuntu mode=0755

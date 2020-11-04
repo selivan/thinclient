@@ -1,3 +1,54 @@
+dnsmasq - disable systemd-resolved.service to work
+
+dnsmasq.conf - dns servers:
+
+no-resolv
+server=8.8.8.8
+
+ansible -vD -i provision.inventory.ini provision.yml -l template
+
+systemd-networkd
+
+netplan.io
+libnetplan0
+
+/etc/systemd/network/50-vagrant-eth1.network
+
+!!
+
+/root/home/ubuntu
+
+apt install --install-recommends=no icewm
+
+The following NEW packages will be installed:                       
+  fontconfig-config fonts-dejavu-core icewm icewm-common libao-common libao4 libflac8 libfontconfig1 libgdk-pixbuf2.0-0 libgdk-pixbuf2.0-common libice6
+  libjbig0 libjpeg-turbo8 libjpeg8 libsm6 libsndfile1 libtiff5 libvorbisenc2 libwebp6 libxcomposite1 libxdamage1 libxfixes3 libxft2 libxinerama1
+  libxpm4 libxrandr2 libxrender1 x11-common                             
+
+xinit
+
+rxvt-unicode
+
+jwm
+
+xinitrc
+
+https://wiki.archlinux.org/index.php/Xinit
+
+Command-Line Installation Options for the Linux Client
+
+https://docs.vmware.com/en/VMware-Horizon-Client-for-Linux/2006/horizon-client-linux-installation/GUID-A5A6332F-1DEC-4D77-BD6E-1362596A2E76.html
+
+libgtk-3-0
+
+sudo timedatectl set-timezone Europe/Moscow
+
+sudo ntpdate -t 5 10.0.0.1
+
+sudo systemd-run --on-calendar='03:26:40' halt -p
+
+##############################
+
 [x] network configuration for node by vagrant, example: https://www.vagrantup.com/docs/provisioning/ansible_local.html#ansible-parallel-execution-from-a-guest
 https://www.vagrantup.com/docs/networking/public_network.html
 https://www.vagrantup.com/docs/networking/private_network.html
