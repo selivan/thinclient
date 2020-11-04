@@ -1,4 +1,4 @@
-**NEWS**: Check out new `20.04` branch with Ubuntu 20.04 Focal and option to use VMWare Horizon. It still needs some polishing, though.
+**NEWS**: Check out new `20.04` branch with Ubuntu 20.04 Focal and an option to use VMWare Horizon. It still needs some polishing, though.
 
 ### Thinclient
 
