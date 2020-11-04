@@ -1,34 +1,3 @@
-- name: intall gui packages
-  apt:
-    state: latest
-    install_recommends: no
-    package:
-    - xserver-xorg-core
-    - xserver-xorg-input-all
-    # Basic universal video drivers
-    - xserver-xorg-video-fbdev
-    - xserver-xorg-video-vesa
-    - xinit
-
-- name: intall xorg video drivers
-  apt:
-    state: latest
-    install_recommends: no
-    package: "{{ xorg_video_drivers }}"
-
-- name: install minimal desktop environment
-  apt:
-    state: latest
-    install_recommends: no
-    package:
-      - xterm
-      # includes xrandr
-      - x11-xserver-utils
-      # minimalistic window manager
-      - jwm
-      # sync time by NTP
-      - ntpdate
-
 - name: install packages required for VMWare Horizon
   apt:
     state: present
@@ -46,26 +15,3 @@
     /vagrant/{{ horizon_bundle_file }} {{ horizon_install_options }}
   args:
     chdir: /vagrant
-
-- name: user bash_profile to autostart X session on first console
-  template: src=template/home/bash_profile dest=/home/{{ autologin_user }}/.bash_profile owner={{ autologin_user }} mode=0640
-
-- name: user xinitrc
-  template: src=template/home/.xinitrc dest=/home/{{ autologin_user }}/.xinitrc mode=0755 owner={{ autologin_user }}
-
-# Docs: http://joewing.net/projects/jwm/config-2.3.html
-- name: user jwmrc
-  template: src=template/home/.jwmrc dest=/home/{{ autologin_user }}/.jwmrc mode=0644 owner={{ autologin_user }}
-
-- name: user config directories
-  file: path={{ item }} state=directory owner={{ autologin_user }}
-  with_items:
-    - /home/{{ autologin_user }}/.local
-    - /home/{{ autologin_user }}/.local/bin
-
-- name: user scripts
-  template: src=template/home/local/bin/{{ item }} dest=/home/{{ autologin_user }}/.local/bin/{{ item }} owner={{ autologin_user }} mode=0755
-  loop:
-    - create-rdp-shortcuts.sh
-    - endless-run-vmware-view.sh
-    - autorun.sh

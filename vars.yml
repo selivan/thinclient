@@ -1,10 +1,15 @@
 # Choose "no" to create minimal console-only system
-install_gui_and_rdp_client: no
+install_gui: yes
 
-install_gui_and_vmware_horizon_client: yes
+# Options: LXDE, jwm
+gui_window_manager: jwm
+
+install_rdp_client: no
+
+install_vmware_horizon_client: yes
 
 horizon_url: https://download3.vmware.com/software/view/viewclients/CART21FQ2/VMware-Horizon-Client-2006-8.0.0-16522670.x64.bundle
-horizon_bundle_file: VMware-Horizon-Client-2006-8.0.0-16522670.x64.bundle
+horizon_bundle_file: "{{ horizon_url | urlsplit('path') | basename }}"
 # Docs: https://docs.vmware.com/en/VMware-Horizon-Client-for-Linux/2006/horizon-client-linux-installation/GUID-A5A6332F-1DEC-4D77-BD6E-1362596A2E76.html
 horizon_install_options: >-
   --eulas-agreed --console --required \
@@ -46,6 +51,7 @@ xorg_video_drivers:
   # - xserver-xorg-video-tdfx
   # - xserver-xorg-video-trident
   # - xserver-xorg-video-vmware
+
 # Need something else?
 additional_gui_packages: []
 

@@ -1,51 +1,60 @@
 - name: intall gui packages
   apt: pkg={{ item }} state=latest install_recommends=no
-  with_items:
+  loop:
   - xserver-xorg-core
   - xserver-xorg-input-all
   # Basic universal video drivers
   - xserver-xorg-video-fbdev
   - xserver-xorg-video-vesa
   - xinit
+  # sync time by NTP
+  - ntpdate
+
+- name: intall xorg video drivers
+  apt:
+    state: latest
+    install_recommends: no
+    package: "{{ xorg_video_drivers }}"
+
+- name: install gui packages for lxde
+  apt: pkg={{ item }} state=latest install_recommends=no
+  loop:
   - lxde-core
   - lxde-common
   - lxde-icon-theme
   - lxsession
   - lxrandr
   - lxterminal
-  - "{{ xorg_video_drivers }}"
+  when: gui_window_manager == 'lxde'
+
+- name: install gui packages for jwm
+  apt: pkg={{ item }} state=latest install_recommends=no
+  loop:
+    - jwm
+    # includes xrandr
+    - x11-xserver-utils
+  when: gui_window_manager == 'jwm'
+
 - name: remove dependencies that are no longer required
   apt:
     autoremove: yes
+
 - name: install additional gui packages
-  apt: pkg={{ item }} state=latest
-  with_items:
-  - "{{ additional_gui_packages }}"
-- name: add remmina and freerdp ppa repository
-  apt_repository: repo="ppa:remmina-ppa-team/remmina-next"
-  register: apt_repo_remmina
-- name: update apt cache
-  apt: update_cache=yes
-  when: apt_repo_remmina is changed
-- name: install freerdp
   apt: pkg={{ item }} state=latest install_recommends=no
   with_items:
-    - freerdp-x11
-# - name: remove unnecessary gui packages
-#   apt: pkg={{ item }} state=absent purge=yes
-#   with_items:
-#     - gnome-screenshot
-#     - xscreensaver
-#     - xscreensaver-data
-#     - lxtask
-#     - x11-xserver-utils
-#     - cpp
-#     - cpp-5
+  - "{{ additional_gui_packages }}"
 
 - name: user bash_profile to autostart X session on first console
-  template: src=template/home/bash_profile dest=/home/{{ autologin_user }}/.bash_profile owner=ubuntu mode=0640
+  template: src=template/home/bash_profile dest=/home/{{ autologin_user }}/.bash_profile owner={{ autologin_user }} mode=0640
 
-  - name: user config directories
+- name: user xinitrc
+  template: src=template/home/.xinitrc dest=/home/{{ autologin_user }}/.xinitrc mode=0755 owner={{ autologin_user }}
+
+# Docs: http://joewing.net/projects/jwm/config-2.3.html
+- name: user jwmrc
+  template: src=template/home/.jwmrc dest=/home/{{ autologin_user }}/.jwmrc mode=0644 owner={{ autologin_user }}
+
+- name: user config directories
   file: path={{ item }} state=directory owner={{ autologin_user }}
   with_items:
     - /home/{{ autologin_user }}/.config
@@ -53,8 +62,16 @@
     - /home/{{ autologin_user }}/.local
     - /home/{{ autologin_user }}/.local/bin
 
-    - name: script to create RDP shortcuts
-  template: src=template/home/local/bin/create-rdp-shortcuts.sh dest=/home/{{ autologin_user }}/.local/bin/create-rdp-shortcuts.sh owner=ubuntu mode=0755
+- name: user scripts
+  template: src=template/home/local/bin/{{ item }} dest=/home/{{ autologin_user }}/.local/bin/{{ item }} owner={{ autologin_user }} mode=0755
+  loop:
+    - create-rdp-shortcuts.sh
+    - endless-run-vmware-view.sh
+    - autorun.sh
 
-  - name: autostart entry to create RDP shortcuts
-  template: src=template/home/config/autostart/create-rdp-shortcuts.desktop dest=/home/{{ autologin_user }}/.config/autostart/create-rdp-shortcuts.desktop owner=ubuntu mode=0755
+- name: autostart entries
+  template: src=template/home/config/autostart/{{ item }} dest=/home/{{ autologin_user }}/.config/autostart/{{ item }} owner={{ autologin_user }} mode=0755
+  loop:
+    - create-rdp-shortcuts.desktop
+    - autorun.desktop
+    - endless-run-vmware-view.desktop

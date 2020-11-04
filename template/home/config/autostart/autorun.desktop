@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=autorun.sh
+Exec=/home/vagrant/.local/bin/autorun.sh
+Terminal=false
+Type=Application

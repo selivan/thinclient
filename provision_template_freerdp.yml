@@ -1,0 +1,11 @@
+- name: add remmina and freerdp ppa repository
+  apt_repository: repo="ppa:remmina-ppa-team/remmina-next"
+  register: apt_repo_remmina
+- name: update apt cache
+  apt: update_cache=yes
+  when: apt_repo_remmina is changed
+
+- name: install freerdp
+  apt: pkg={{ item }} state=latest install_recommends=no
+  with_items:
+    - freerdp-x11

@@ -21,18 +21,26 @@
 - hosts: template
   become: yes
   tasks:
+
   - name: read config variables
     include_vars: vars.yml
     tags: always
+
   - name: include provision_template.yml
     include_tasks: provision_template.yml
+
   - name: install GUI packages
     include_tasks: provision_template_gui.yml
-    when: install_gui_and_rdp_client
+    when: install_gui
+
+  - name: install FreeRDP packages
+    include_tasks: provision_template_freerdp.yml
+    when: install_rdp_client
+
   - name: install GUI packages
     include_tasks: provision_template_vmware_horizon.yml
-    when: install_gui_and_vmware_horizon_client
-    tags: debug
+    when: install_vmware_horizon_client
+
   handlers:
     # update artifacts in build every time we need to regenerate initrd
     - name: update initramfs
