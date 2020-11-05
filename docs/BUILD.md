@@ -38,6 +38,7 @@ If you do one of this actions, then you should do further work inside template v
 After all work is done, build images inside template machine:
 
 ```bash
+vagrant ssh template
 cd /vagrant
 ./build.sh all
 ```

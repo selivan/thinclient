@@ -3,7 +3,7 @@
 
 ntp_timeout=5
 
-{% if install_gui_and_vmware_horizon_client %}
+{% if install_vmware_horizon_client %}
 
 cat /proc/cmdline | tr ' ' '\n' | while read param; do
     if echo $param | grep -q '^timezone='; then

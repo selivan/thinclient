@@ -12,6 +12,6 @@
 - name: install vmware horizon client
   shell: |
     chmod a+rx /vagrant/{{ horizon_bundle_file }} && \
-    /vagrant/{{ horizon_bundle_file }} {{ horizon_install_options }}
+    echo yes | /vagrant/{{ horizon_bundle_file }} {{ horizon_install_options }}
   args:
     chdir: /vagrant
