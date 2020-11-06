@@ -6,5 +6,6 @@ mkdir -p ./unpacked-initrd
 find ./unpacked-initrd/ -mindepth 1 -depth -delete
 cd unpacked-initrd
 initrd=$(readlink -f ../build/initrd.img)
-bzip2 -dc "$initrd" | cpio -id
+#cat "$initrd" | cpio -id
+unmkinitramfs -v "$initrd" .
 cd -
