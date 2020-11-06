@@ -12,21 +12,23 @@ horizon_url: https://download3.vmware.com/software/view/viewclients/CART21FQ2/VM
 horizon_bundle_file: "{{ horizon_url | urlsplit('path') | basename }}"
 # Docs: https://docs.vmware.com/en/VMware-Horizon-Client-for-Linux/2006/horizon-client-linux-installation/GUID-A5A6332F-1DEC-4D77-BD6E-1362596A2E76.html
 horizon_install_options: >-
-  --eulas-agreed --console --required \
-  --set-setting vmware-horizon-html5mmr html5mmrEnable yes \
-  --set-setting vmware-horizon-integrated-printing vmipEnable yes \
-  --set-setting vmware-horizon-media-provider mediaproviderEnable yes \
-  --set-setting vmware-horizon-mmr mmrEnable yes \
-  --set-setting vmware-horizon-rtav rtavEnable yes \
-  --set-setting vmware-horizon-scannerclient scannerEnable yes \
-  --set-setting vmware-horizon-serialportclient serialportEnable yes \
-  --set-setting vmware-horizon-smartcard smartcardEnable yes \
-  --set-setting vmware-horizon-tsdr tsdrEnable yes \
+  --eulas-agreed --console --required
+  --set-setting vmware-horizon-html5mmr html5mmrEnable yes
+  --set-setting vmware-horizon-integrated-printing vmipEnable yes
+  --set-setting vmware-horizon-media-provider mediaproviderEnable yes
+  --set-setting vmware-horizon-mmr mmrEnable yes
+  --set-setting vmware-horizon-rtav rtavEnable yes
+  --set-setting vmware-horizon-scannerclient scannerEnable yes
+  --set-setting vmware-horizon-serialportclient serialportEnable yes
+  --set-setting vmware-horizon-smartcard smartcardEnable yes
+  --set-setting vmware-horizon-tsdr tsdrEnable yes
   --set-setting vmware-horizon-usb usbEnable yes
 
 horizon_required_packages:
   - libgtk-3-0
   - libcups2
+  - libpcsclite1
+  - libnss3
 
 # Uncomment drivers for your devices
 xorg_video_drivers:
