@@ -92,7 +92,13 @@
     - initramfs-tools/scripts/ram
     - initramfs-tools/initramfs.conf
   notify: update initramfs
+  register: initramfs_config
   tags: initramfs-conf
+
+# This also may be done by handler, but if playbook fails at any step, handler doesn't start and we have initrd without boot script
+- name: update initramfs
+  shell: update-initramfs -u
+  when: initramfs_config is changed
 
 - name: create helper directory for aufs
   file: path=/AUFS state=directory mode=0755
