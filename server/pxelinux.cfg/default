@@ -3,18 +3,37 @@ prompt 0
 
 # Create shortcuts for RDP connections
 # rdpservers=rdp%server%1:dc1.example.net:3389:/src:rdp;rdp%server2:dc2.example.net:5555:/sec:rdp%/bpp:24
+
+# Endless run VMWare Horizon client with this options ( % changed to spaces )
+# vmwareviewoptions=--fullscreen%--serverURL=192.168.10.254%--nonInteractive
+
 # DEBUG with serial console
 # console=tty1 console=ttyS0,115200n8
 # DEBUG shell inside initrd
 # initrddebug=y
+
 # Mount overlays over rootfs
 # overlayproto=http overlays=overlay1.tar.gz,overlay2.tar.gz
+
 # Set compressed RAM (zram) disk size to specified percent of available RAM. Default is 50, 0 disables it.
 # Documentation: https://www.kernel.org/doc/Documentation/blockdev/zram.txt
 # zram_size_pct=50
+
 # Fallback mode for graphics and framebuffer
 # Documentation: https://www.kernel.org/doc/Documentation/fb/uvesafb.txt
 # uvesafb=mode_option=1280x800-32;scroll=ywrap
+
+# Set timezone, like Europe/Moscow
+# Possible timezone files: /usr/share/zoneinfo
+# timezone=Europe/Moscow
+
+# List of ntp servers to sync time with, separated with comma
+# ntpservers=0.ru.pool.ntp.org,1.ru.pool.ntp.org,2.ru.pool.ntp.org
+
+# Time to shutdown, time format: man systemd.time
+# Replace spaces with %
+# shutdowntime=00:00:00
+
 label thinclient
     kernel vmlinuz
-    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp%server%1:dc1.example.net:3389:/sec:rdp
+    append boot=ram initrd=initrd.img rootproto=http rooturl=/rootfs.squashfs homeproto=http homeurl=/home.tar.gz rdpservers=rdp%server%1:dc1.example.net:3389:/sec:rdp vmwareviewoptions=--fullscreen%--serverURL=192.168.10.254 timezone=Europe/Moscow ntpservers=0.ru.pool.ntp.org,1.ru.pool.ntp.org,2.ru.pool.ntp.org shutdowntime=00:00:00

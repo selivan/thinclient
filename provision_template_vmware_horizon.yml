@@ -1,0 +1,17 @@
+- name: install packages required for VMWare Horizon
+  apt:
+    state: present
+    package: "{{ horizon_required_packages }}"
+
+- name: download vmware horizon client bundle
+  shell: "wget {{ horizon_url }}"
+  args:
+    chdir: /vagrant
+    creates: "/vagrant/{{ horizon_bundle_file }}"
+
+- name: install vmware horizon client
+  shell: |
+    chmod a+rx /vagrant/{{ horizon_bundle_file }} && \
+    echo yes | /vagrant/{{ horizon_bundle_file }} {{ horizon_install_options }}
+  args:
+    chdir: /vagrant

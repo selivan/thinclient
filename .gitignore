@@ -11,3 +11,6 @@ build
 unpacked-initrd
 unpacked-rootfs
 
+# VMWare Horizon
+VMware-Horizon-Client-*.bundle
+

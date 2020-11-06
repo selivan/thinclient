@@ -2,7 +2,7 @@
 
 build-kernel() {
     set -x
-    vmlinuz_path=$(readlink -f /vmlinuz)
+    vmlinuz_path=$(readlink -f /boot/vmlinuz)
     vmlinuz_filename=$(basename $vmlinuz_path)
     cp "$vmlinuz_path" "$buildddir"
     cd /vagrant/build
@@ -14,7 +14,7 @@ build-kernel() {
 build-initrd() {
     set -x
     #update-initramfs -u
-    initrd_path=$(readlink -f /initrd.img)
+    initrd_path=$(readlink -f /boot/initrd.img)
     initrd_filename=$(basename $initrd_path)
     cp "$initrd_path" "$buildddir"
     cd "$buildddir"
@@ -29,7 +29,7 @@ build-initrd() {
 generate-rootfs-excludes() {
     # too much noise
     set +x
-    for d in /boot /dev /proc /sys /tmp /var/tmp /run /mnt /home/ubuntu /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /var/cache/man /usr/src /var/lib/systemd /var/lib/dhcp/; do
+    for d in /boot /dev /proc /sys /tmp /var/tmp /run /mnt /home/vagrant /var/cache/apt /var/log /var/lib/apt/lists /usr/share/doc /usr/share/man /var/cache/man /usr/src /var/lib/systemd /var/lib/dhcp/; do
         find $d -mindepth 1 -maxdepth 1 >> "$1"
     done
     # Exclude all files from this packages
@@ -40,10 +40,7 @@ generate-rootfs-excludes() {
             fi
         done
     done
-    echo /home/vagrant >> "$1"
     echo /vagrant >> "$1"
-    echo initrd.img >> "$1"
-    echo vmlinuz >> "$1"
 }
 
 build-rootfs() {
@@ -51,28 +48,30 @@ build-rootfs() {
     mv "$buildddir"/rootfs.squashfs "$buildddir"/rootfs.squashfs.bak
     cd /
     generate-rootfs-excludes /tmp/rootfs.exclude_dirs
-    # Change interfaces file to symlink
-    # To exclude Vagrant static interfaces
-    echo "Backup /etc/network/interfaces and /etc/fstab"
-    mv /etc/network/interfaces /etc/network/interfaces.bak
+    echo "Backup /etc/fstab"
     mv /etc/fstab /etc/fstab.bak
-    ln -sf /tmp/interfaces /etc/network/interfaces
     : > /etc/fstab
+    mv /etc/localtime /etc/localtime.bak
+    ln -fs /run/localtime /etc/localtime
+
     mksquashfs . /vagrant/build/rootfs.squashfs -no-xattrs -noappend -always-use-fragments -comp xz -ef /tmp/rootfs.exclude_dirs \
     && rm -f "$buildddir"/rootfs.squashfs.bak
     chmod a+r "$buildddir"/rootfs.squashfs
+
     # Restore interfaces file
-    echo "Restore original /etc/network/interfaces and /etc/fstab"
-    rm -f /etc/network/interfaces
-    mv /etc/network/interfaces.bak /etc/network/interfaces
+    echo "Restore original /etc/fstab"
+    # rm -f /etc/network/interfaces
+    # mv /etc/network/interfaces.bak /etc/network/interfaces
     mv /etc/fstab.bak /etc/fstab
+    rm -f /etc/localtime
+    mv /etc/localtime.bak /etc/localtime
     cd -
 }
 
 build-home() {
     set -x
     mv "$buildddir"/home.tar.gz "$buildddir"/home.tar.gz.bak
-    cd /home/ubuntu
+    cd /home/vagrant
     # Don't use default unsecure ssh keys
     tar --exclude="./.ssh" -czf /vagrant/build/home.tar.gz ./ \
     && rm -f "$buildddir"/home.tar.gz.bak
