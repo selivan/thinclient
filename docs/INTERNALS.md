@@ -26,7 +26,7 @@ Scripts are copied from ubuntu [zram-config](https://packages.ubuntu.com/xenial/
 
 ## Initrd hacks
 
-initrd has custom booot script `ram` and hook to incude necessary binaries and modules. Script name is passed to kernel in boot parameters.
+initrd has custom boot script `ram` and hook to incude necessary binaries and modules. Script name is passed to kernel in boot parameters.
 
 Overlays(optional) are mounted using [Overlayfs](https://en.wikipedia.org/wiki/OverlayFS). `/AUFS` helper directory is used to make it work.
 
